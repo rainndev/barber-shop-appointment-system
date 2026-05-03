@@ -10,7 +10,6 @@
     <h1>Home</h1>
     <p>Welcome to the home page!</p>
 
-    
         @if ($errors->any())
             <div style="color: red;">
                 <ul>
