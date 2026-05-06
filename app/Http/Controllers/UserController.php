@@ -40,7 +40,7 @@ class UserController extends Controller
             'name' => $validatedData['loginname'],
             'password' => $validatedData['loginpassword']
         ])) {
-            return redirect('/dashboard');
+            return redirect()->route('dashboard');
         } else {
             return redirect()->back()->with('error', 'Login failed. Please check your credentials and try again.');
         }

@@ -1,16 +1,18 @@
-<x-layout>
- <h1>Dashboard</h1>
-    <p>Welcome to {{ Auth::user()->name }}</p>
-    
-     @foreach ($users as $user )
-         <div>
-                <p>Name: {{ $user->name }}</p>
-            
-         </div>
-     @endforeach
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Customer Dashboard') }}
+        </h2>
+    </x-slot>
 
-    <form action="/logout" method="POST">
-        @csrf
-        <button>Log out</button>
-    </form>
-</x-layout>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 space-y-2">
+                    <p>{{ __('Welcome back, customer.') }}</p>
+                    <p class="text-sm text-gray-600">{{ __('Book a new appointment or review your upcoming visits from this screen.') }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>

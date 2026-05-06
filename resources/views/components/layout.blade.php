@@ -10,7 +10,7 @@
     <header>
         <h1>Welcome to the Barber Shop Appointment System</h1>
         <nav>
-            <a href="/dashboard">Dashboard</a>
+            <a href="{{ route("dashboard") }}">Dashboard</a>
             <a href="/create">Create appointments</a>
             <a href="/contact">Contact</a>
         </nav>

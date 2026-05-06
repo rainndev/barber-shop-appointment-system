@@ -18,4 +18,10 @@ class DashboardController extends Controller
     {
         return view('appointments');
     }   
+
+    public function show($id)
+    {
+        $user = User::findOrFail($id);    
+        return view('appointment-details', ["user" => $user]);
+    }
 }
