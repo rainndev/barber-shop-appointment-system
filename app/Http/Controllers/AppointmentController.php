@@ -7,6 +7,7 @@ use App\Models\AvailabilityBlock;
 use App\Models\Service;
 use App\Models\User;
 use App\Models\WaitingListEntry;
+use App\Notifications\AppointmentStatusUpdated;
 use App\Notifications\WaitlistSlotOpened;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -164,6 +165,7 @@ class AppointmentController extends Controller
         }
 
         $appointment->update(['status' => 'confirmed']);
+        $appointment->customer->notify(new AppointmentStatusUpdated($appointment, 'Your appointment was confirmed by the barber.'));
 
         return back()->with('status', 'Appointment accepted successfully.');
     }
@@ -180,6 +182,8 @@ class AppointmentController extends Controller
             'status' => 'cancelled',
             'cancellation_reason' => 'Declined by barber',
         ]);
+
+        $appointment->customer->notify(new AppointmentStatusUpdated($appointment, 'Your appointment was cancelled by the barber.'));
 
         $this->promoteWaitlist($appointment);
 

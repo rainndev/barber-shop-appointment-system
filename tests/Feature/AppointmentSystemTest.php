@@ -51,6 +51,34 @@ class AppointmentSystemTest extends TestCase
         $response->assertForbidden();
     }
 
+    public function test_barber_dashboard_shows_assigned_customer_appointments(): void
+    {
+        $customer = User::factory()->customer()->create();
+        $barber = User::factory()->barber()->create();
+        $service = Service::query()->create([
+            'name' => 'Classic Haircut',
+            'description' => 'Quick trim',
+            'duration_minutes' => 30,
+            'price' => 15,
+            'is_active' => true,
+        ]);
+
+        Appointment::query()->create([
+            'user_id' => $customer->id,
+            'barber_id' => $barber->id,
+            'service_id' => $service->id,
+            'scheduled_at' => now()->addDay()->setTime(10, 0),
+            'ends_at' => now()->addDay()->setTime(10, 30),
+            'status' => 'pending',
+        ]);
+
+        $response = $this->actingAs($barber)->get(route('barber.dashboard'));
+
+        $response->assertOk();
+        $response->assertSee($customer->name);
+        $response->assertSee('Classic Haircut');
+    }
+
     public function test_barber_can_accept_a_pending_appointment(): void
     {
         $customer = User::factory()->customer()->create();
@@ -79,6 +107,10 @@ class AppointmentSystemTest extends TestCase
             'id' => $appointment->id,
             'status' => 'confirmed',
         ]);
+
+        $response = $this->actingAs($customer)->get(route('customer.dashboard'));
+        $response->assertOk();
+        $response->assertSee('Confirmed');
     }
 
     public function test_barber_can_decline_a_pending_appointment(): void
