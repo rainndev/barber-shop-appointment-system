@@ -90,11 +90,11 @@ class AppointmentController extends Controller
             'service_id' => $service->id,
             'scheduled_at' => $scheduledAt,
             'ends_at' => $scheduledAt->copy()->addMinutes($service->duration_minutes),
-            'status' => 'confirmed',
+            'status' => 'pending',
             'notes' => $data['notes'] ?? null,
         ]);
 
-        return back()->with('status', 'Appointment scheduled successfully.');
+        return back()->with('status', 'Appointment requested successfully. Waiting for barber acceptance.');
     }
 
     public function update(Request $request, Appointment $appointment): RedirectResponse
@@ -153,6 +153,37 @@ class AppointmentController extends Controller
             'appointment' => $appointment,
             'calendarUrl' => $this->googleCalendarUrl($appointment),
         ]);
+    }
+
+    public function accept(Request $request, Appointment $appointment): RedirectResponse
+    {
+        $this->authorizeBarber($request, $appointment);
+
+        if ($appointment->status !== 'pending') {
+            return back()->with('error', 'Only pending appointments can be accepted.');
+        }
+
+        $appointment->update(['status' => 'confirmed']);
+
+        return back()->with('status', 'Appointment accepted successfully.');
+    }
+
+    public function decline(Request $request, Appointment $appointment): RedirectResponse
+    {
+        $this->authorizeBarber($request, $appointment);
+
+        if ($appointment->status !== 'pending') {
+            return back()->with('error', 'Only pending appointments can be declined.');
+        }
+
+        $appointment->update([
+            'status' => 'cancelled',
+            'cancellation_reason' => 'Declined by barber',
+        ]);
+
+        $this->promoteWaitlist($appointment);
+
+        return back()->with('status', 'Appointment declined successfully.');
     }
 
     public function ics(Request $request, Appointment $appointment)
@@ -309,6 +340,17 @@ class AppointmentController extends Controller
         }
 
         abort_unless((int) $appointment->user_id === (int) $user->id, 403);
+    }
+
+    private function authorizeBarber(Request $request, Appointment $appointment): void
+    {
+        $user = $request->user();
+
+        if ($user->isAdmin()) {
+            return;
+        }
+
+        abort_unless($user->isBarber() && (int) $appointment->barber_id === (int) $user->id, 403);
     }
 
     private function promoteWaitlist(Appointment $cancelledAppointment): void

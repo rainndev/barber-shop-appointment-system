@@ -54,6 +54,7 @@
                                     <th class="px-4 py-3 font-medium">{{ __('When') }}</th>
                                     <th class="px-4 py-3 font-medium">{{ __('Service') }}</th>
                                     <th class="px-4 py-3 font-medium">{{ __('Barber') }}</th>
+                                    <th class="px-4 py-3 font-medium">{{ __('Status') }}</th>
                                     <th class="px-4 py-3 font-medium">{{ __('Action') }}</th>
                                 </tr>
                             </thead>
@@ -63,6 +64,15 @@
                                         <td class="px-4 py-3 text-gray-900">{{ $appointment->scheduled_at->format('M d, Y g:i A') }}</td>
                                         <td class="px-4 py-3 text-gray-600">{{ $appointment->service->name }}</td>
                                         <td class="px-4 py-3 text-gray-600">{{ $appointment->barber?->name ?? __('To be assigned') }}</td>
+                                        <td class="px-4 py-3">
+                                            @if ($appointment->status === 'pending')
+                                                <span class="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800">{{ __('Pending') }}</span>
+                                            @elseif ($appointment->status === 'confirmed')
+                                                <span class="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-800">{{ __('Confirmed') }}</span>
+                                            @elseif ($appointment->status === 'cancelled')
+                                                <span class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">{{ __('Cancelled') }}</span>
+                                            @endif
+                                        </td>
                                         <td class="px-4 py-3">
                                             <a href="{{ route('appointments.show', $appointment) }}" class="font-semibold text-gray-700 hover:text-gray-900">{{ __('View') }}</a>
                                         </td>

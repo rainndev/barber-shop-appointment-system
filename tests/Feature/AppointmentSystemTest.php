@@ -38,7 +38,76 @@ class AppointmentSystemTest extends TestCase
             'user_id' => $customer->id,
             'barber_id' => $barber->id,
             'service_id' => $service->id,
+            'status' => 'pending',
+        ]);
+    }
+
+    public function test_barber_cannot_access_the_booking_page(): void
+    {
+        $barber = User::factory()->barber()->create();
+
+        $response = $this->actingAs($barber)->get(route('appointments.index'));
+
+        $response->assertForbidden();
+    }
+
+    public function test_barber_can_accept_a_pending_appointment(): void
+    {
+        $customer = User::factory()->customer()->create();
+        $barber = User::factory()->barber()->create();
+        $service = Service::query()->create([
+            'name' => 'Classic Haircut',
+            'description' => 'Quick trim',
+            'duration_minutes' => 30,
+            'price' => 15,
+            'is_active' => true,
+        ]);
+
+        $appointment = Appointment::query()->create([
+            'user_id' => $customer->id,
+            'barber_id' => $barber->id,
+            'service_id' => $service->id,
+            'scheduled_at' => now()->addDay()->setTime(10, 0),
+            'ends_at' => now()->addDay()->setTime(10, 30),
+            'status' => 'pending',
+        ]);
+
+        $response = $this->actingAs($barber)->post(route('appointments.accept', $appointment));
+
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('appointments', [
+            'id' => $appointment->id,
             'status' => 'confirmed',
+        ]);
+    }
+
+    public function test_barber_can_decline_a_pending_appointment(): void
+    {
+        $customer = User::factory()->customer()->create();
+        $barber = User::factory()->barber()->create();
+        $service = Service::query()->create([
+            'name' => 'Classic Haircut',
+            'description' => 'Quick trim',
+            'duration_minutes' => 30,
+            'price' => 15,
+            'is_active' => true,
+        ]);
+
+        $appointment = Appointment::query()->create([
+            'user_id' => $customer->id,
+            'barber_id' => $barber->id,
+            'service_id' => $service->id,
+            'scheduled_at' => now()->addDay()->setTime(10, 0),
+            'ends_at' => now()->addDay()->setTime(10, 30),
+            'status' => 'pending',
+        ]);
+
+        $response = $this->actingAs($barber)->post(route('appointments.decline', $appointment));
+
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('appointments', [
+            'id' => $appointment->id,
+            'status' => 'cancelled',
         ]);
     }
 

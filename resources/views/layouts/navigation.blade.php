@@ -15,9 +15,11 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('appointments.index')" :active="request()->routeIs('appointments.*')">
-                        {{ __('Appointments') }}
-                    </x-nav-link>
+                    @if (Auth::user()->isCustomer())
+                        <x-nav-link :href="route('appointments.index')" :active="request()->routeIs('appointments.*')">
+                            {{ __('Appointments') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -84,9 +86,11 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('appointments.index')" :active="request()->routeIs('appointments.*')">
-                {{ __('Appointments') }}
-            </x-responsive-nav-link>
+            @if (Auth::user()->isCustomer())
+                <x-responsive-nav-link :href="route('appointments.index')" :active="request()->routeIs('appointments.*')">
+                    {{ __('Appointments') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

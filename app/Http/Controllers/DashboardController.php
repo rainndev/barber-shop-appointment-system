@@ -49,19 +49,12 @@ class DashboardController extends Controller
         $user = $request->user();
 
         return view('barber.dashboard', [
-            'todayAppointments' => Appointment::query()
+            'pendingAppointments' => Appointment::query()
                 ->with(['customer', 'service'])
                 ->where('barber_id', $user->id)
-                ->whereDate('scheduled_at', today())
-                ->orderBy('scheduled_at')
-                ->get(),
-            'upcomingAppointments' => Appointment::query()
-                ->with(['customer', 'service'])
-                ->where('barber_id', $user->id)
+                ->where('status', 'pending')
                 ->where('scheduled_at', '>=', now())
-                ->whereIn('status', ['confirmed', 'pending'])
                 ->orderBy('scheduled_at')
-                ->take(8)
                 ->get(),
             'blocks' => AvailabilityBlock::query()
                 ->where(function ($query) use ($user) {
