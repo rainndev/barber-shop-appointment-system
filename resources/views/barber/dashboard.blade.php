@@ -27,8 +27,24 @@
 
             <div class="grid gap-4 md:grid-cols-1">
                 <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <p class="text-sm text-gray-500">{{ __('Customer appointments') }}</p>
+                    <p class="text-sm text-gray-500">{{ __('Confirmed appointments') }}</p>
                     <p class="mt-2 text-3xl font-semibold text-amber-600">{{ $appointments->count() }}</p>
+                </div>
+            </div>
+
+            <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+                <div class="flex items-center justify-between gap-3">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ __('Confirmed appointment calendar') }}</h3>
+                        <p class="text-sm text-gray-500">{{ __('Calendar view of your confirmed bookings') }}</p>
+                    </div>
+                    <div class="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-gray-600">
+                        {{ __('Month view') }}
+                    </div>
+                </div>
+
+                <div class="mt-6 overflow-hidden rounded-3xl border border-gray-200">
+                    <livewire:appointment-calendar :day-click-enabled="false" :event-click-enabled="false" :drag-and-drop-enabled="false" />
                 </div>
             </div>
 

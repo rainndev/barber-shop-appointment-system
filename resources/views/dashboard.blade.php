@@ -24,7 +24,7 @@
 
             <div class="grid gap-4 md:grid-cols-3">
                 <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <p class="text-sm text-gray-500">{{ __('Upcoming appointments') }}</p>
+                    <p class="text-sm text-gray-500">{{ __('Confirmed appointments') }}</p>
                     <p class="mt-2 text-3xl font-semibold text-gray-900">{{ $upcomingAppointments->count() }}</p>
                 </div>
                 <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
@@ -41,8 +41,23 @@
                 <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
                     <div class="flex items-center justify-between gap-3">
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-900">{{ __('Upcoming visits') }}</h3>
-                            <p class="text-sm text-gray-500">{{ __('Review the bookings you already have on the books.') }}</p>
+                            <h3 class="text-lg font-semibold text-gray-900">{{ __('Confirmed appointment calendar') }}</h3>
+                            <p class="text-sm text-gray-500">{{ __('Calendar view of your confirmed bookings') }}</p>
+                        </div>
+                        <div class="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-gray-600">
+                            {{ __('Month view') }}
+                        </div>
+                    </div>
+
+                    <div class="mt-6 overflow-hidden rounded-3xl border border-gray-200">
+                        <livewire:appointment-calendar :day-click-enabled="false" :event-click-enabled="false" :drag-and-drop-enabled="false" />
+                    </div>
+
+                    <div class="mt-6">
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">{{ __('Confirmed visits') }}</h3>
+                            <p class="text-sm text-gray-500">{{ __('Review the bookings the barber has already confirmed.') }}</p>
                         </div>
                         <a href="{{ route('appointments.index') }}" class="text-sm font-semibold text-gray-700 hover:text-gray-900">{{ __('Open scheduler') }}</a>
                     </div>
@@ -79,11 +94,12 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="px-4 py-8 text-center text-gray-500">{{ __('No upcoming appointments yet.') }}</td>
+                                        <td colspan="5" class="px-4 py-8 text-center text-gray-500">{{ __('No upcoming appointments yet.') }}</td>
                                     </tr>
                                 @endforelse
                             </tbody>
                         </table>
+                    </div>
                     </div>
                 </div>
 

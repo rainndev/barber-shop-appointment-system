@@ -30,7 +30,7 @@ class DashboardController extends Controller
             'upcomingAppointments' => Appointment::query()
                 ->with(['service', 'barber'])
                 ->where('user_id', $user->id)
-                ->whereIn('status', ['confirmed', 'pending'])
+                ->where('status', 'confirmed')
                 ->where('scheduled_at', '>=', now())
                 ->orderBy('scheduled_at')
                 ->get(),
