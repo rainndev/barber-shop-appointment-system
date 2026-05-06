@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             BarberUserSeeder::class,
             CustomerUserSeeder::class,
+            ServiceSeeder::class,
+            AppointmentSeeder::class,
+            AvailabilityBlockSeeder::class,
         ]);
     }
 }
