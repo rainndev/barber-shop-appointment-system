@@ -5,12 +5,13 @@ namespace App\Livewire;
 use App\Models\Appointment;
 use Asantibanez\LivewireCalendar\LivewireCalendar;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentCalendar extends LivewireCalendar
 {
     public function events(): Collection
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         if (! $user) {
             return collect();

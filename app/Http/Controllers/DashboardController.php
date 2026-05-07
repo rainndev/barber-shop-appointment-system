@@ -39,7 +39,6 @@ class DashboardController extends Controller
                 ->where('user_id', $user->id)
                 ->latest()
                 ->get(),
-            'notifications' => $user->notifications()->latest()->take(5)->get(),
             'services' => Service::query()->where('is_active', true)->orderBy('name')->get(),
         ]);
     }

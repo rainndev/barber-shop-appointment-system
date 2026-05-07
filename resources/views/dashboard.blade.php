@@ -105,20 +105,6 @@
 
                 <div class="space-y-6">
                     <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                        <h3 class="text-lg font-semibold text-gray-900">{{ __('Notifications') }}</h3>
-                        <div class="mt-4 space-y-3">
-                            @forelse ($notifications as $notification)
-                                <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700">
-                                    <p class="font-semibold text-gray-900">{{ data_get($notification->data, 'title', __('Update')) }}</p>
-                                    <p class="mt-1">{{ data_get($notification->data, 'message') }}</p>
-                                </div>
-                            @empty
-                                <p class="text-sm text-gray-500">{{ __('You are all caught up.') }}</p>
-                            @endforelse
-                        </div>
-                    </div>
-
-                    <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
                         <h3 class="text-lg font-semibold text-gray-900">{{ __('Waiting list') }}</h3>
                         <div class="mt-4 space-y-3">
                             @forelse ($waitingListEntries as $entry)
