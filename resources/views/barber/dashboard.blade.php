@@ -43,7 +43,7 @@
                     </div>
                 </div>
 
-                <div class="mt-6 overflow-hidden rounded-3xl border border-gray-200">
+                <div class="mt-6 overflow-hidden">
                     <livewire:appointment-calendar :day-click-enabled="false" :event-click-enabled="false" :drag-and-drop-enabled="false" />
                 </div>
             </div>
