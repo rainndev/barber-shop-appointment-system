@@ -1,63 +1,138 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
-
-        <!-- Name -->
+    <flux:card class="max-w-md mx-auto space-y-6">
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <flux:heading size="lg">
+                Create an account
+            </flux:heading>
+
+            <flux:text class="mt-2">
+                Join and start booking appointments.
+            </flux:text>
         </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <form
+            method="POST"
+            action="{{ route('register') }}"
+            class="space-y-6"
+        >
+            @csrf
 
-        <!-- Role Selection -->
-        <div class="mt-4">
-            <x-input-label for="role" :value="__('I am a')" />
-            <select id="role" name="role" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
-                <option value="">{{ __('Select an option') }}</option>
-                <option value="customer" @selected(old('role') === 'customer')>{{ __('Customer') }}</option>
-                <option value="barber" @selected(old('role') === 'barber')>{{ __('Barber (requires approval)') }}</option>
-            </select>
-            <x-input-error :messages="$errors->get('role')" class="mt-2" />
-        </div>
+            <!-- Name -->
+            <flux:field>
+                <flux:label>Name</flux:label>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+                <flux:input
+                    id="name"
+                    type="text"
+                    name="name"
+                    :value="old('name')"
+                    placeholder="Your full name"
+                    required
+                    autofocus
+                    autocomplete="name"
+                />
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+                <flux:error name="name" />
+            </flux:field>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+            <!-- Email -->
+            <flux:field>
+                <flux:label>Email</flux:label>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+                <flux:input
+                    id="email"
+                    type="email"
+                    name="email"
+                    :value="old('email')"
+                    placeholder="Your email address"
+                    required
+                    autocomplete="username"
+                />
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
+                <flux:error name="email" />
+            </flux:field>
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+            <!-- Role -->
+            <flux:field>
+                <flux:label>I am a</flux:label>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+                <flux:select
+                    id="role"
+                    name="role"
+                    required
+                >
+                    <option value="">
+                        Select an option
+                    </option>
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
+                    <option
+                        value="customer"
+                        @selected(old('role') === 'customer')
+                    >
+                        Customer
+                    </option>
+
+                    <option
+                        value="barber"
+                        @selected(old('role') === 'barber')
+                    >
+                        Barber (requires approval)
+                    </option>
+                </flux:select>
+
+                <flux:error name="role" />
+            </flux:field>
+
+            <!-- Password -->
+            <flux:field>
+                <flux:label>Password</flux:label>
+
+                <flux:input
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="Create a password"
+                    required
+                    autocomplete="new-password"
+                />
+
+                <flux:error name="password" />
+            </flux:field>
+
+            <!-- Confirm Password -->
+            <flux:field>
+                <flux:label>Confirm Password</flux:label>
+
+                <flux:input
+                    id="password_confirmation"
+                    type="password"
+                    name="password_confirmation"
+                    placeholder="Confirm your password"
+                    required
+                    autocomplete="new-password"
+                />
+
+                <flux:error name="password_confirmation" />
+            </flux:field>
+
+            <!-- Buttons -->
+            <div class="space-y-2">
+                <flux:button
+                    type="submit"
+                    variant="primary"
+                    class="w-full"
+                >
+                    Register
+                </flux:button>
+
+                <flux:button
+                    href="{{ route('login') }}"
+                    variant="ghost"
+                    class="w-full"
+                >
+                    Already registered?
+                </flux:button>
+            </div>
+        </form>
+    </flux:card>
 </x-guest-layout>

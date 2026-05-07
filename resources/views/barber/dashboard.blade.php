@@ -32,6 +32,7 @@
                 </div>
             </div>
 
+            <!-- Calendar View of confirm bookings -->
             <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
                 <div class="flex items-center justify-between gap-3">
                     <div>
@@ -48,6 +49,7 @@
                 </div>
             </div>
 
+            <!-- List of pending appointments -->
             <div class="grid gap-4">
                 <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
                     <h3 class="mb-6 text-lg font-semibold text-gray-900">

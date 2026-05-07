@@ -41,11 +41,13 @@
                 </div>
 
                 <div class="flex flex-wrap gap-4 pt-2">
-                    <a href="{{ route('login') }}" class="rounded-full bg-amber-400 px-6 py-3 font-semibold text-slate-950 transition hover:bg-amber-300">
-                        Sign in
+
+                    
+                    <a href="{{ route('login') }}" >
+                        <flux:button variant="primary">Sign in</flux:button>
                     </a>
-                    <a href="{{ route('register') }}" class="rounded-full border border-white/15 bg-white/5 px-6 py-3 font-semibold text-white transition hover:bg-white/10">
-                        Create customer account
+                    <a href="{{ route('register') }}" >
+                        <flux:button variant="filled">Create customer account</flux:button>
                     </a>
                 </div>
             </div>
