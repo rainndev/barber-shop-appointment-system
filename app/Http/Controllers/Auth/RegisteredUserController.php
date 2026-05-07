@@ -34,19 +34,28 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => ['required', 'in:customer,barber'],
         ]);
+
+        $role = $request->role;
+        $isApproved = $role === 'customer' ? true : false;
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'customer',
+            'role' => $role,
+            'is_approved' => $isApproved,
         ]);
 
         event(new Registered($user));
 
-        Auth::login($user);
+        // Only auto-login customers; barbers must wait for approval
+        if ($role === 'customer') {
+            Auth::login($user);
+            return redirect(route('dashboard', absolute: false));
+        }
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('login'))->with('status', 'Your barber account has been created and is pending admin approval. Please check back later or contact an administrator.');
     }
 }

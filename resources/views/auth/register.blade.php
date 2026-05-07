@@ -16,6 +16,17 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+        <!-- Role Selection -->
+        <div class="mt-4">
+            <x-input-label for="role" :value="__('I am a')" />
+            <select id="role" name="role" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                <option value="">{{ __('Select an option') }}</option>
+                <option value="customer" @selected(old('role') === 'customer')>{{ __('Customer') }}</option>
+                <option value="barber" @selected(old('role') === 'barber')>{{ __('Barber (requires approval)') }}</option>
+            </select>
+            <x-input-error :messages="$errors->get('role')" class="mt-2" />
+        </div>
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />

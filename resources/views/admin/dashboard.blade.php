@@ -37,6 +37,11 @@
                     <p class="text-sm text-gray-500">{{ __('Peak hour') }}</p>
                     <p class="mt-2 text-3xl font-semibold text-gray-900">{{ $peakHour !== null ? sprintf('%02d:00', $peakHour) : __('N/A') }}</p>
                 </div>
+                <a href="{{ route('admin.barbers.index') }}" class="rounded-2xl bg-gradient-to-br from-amber-50 to-amber-100 p-6 shadow-sm ring-1 ring-amber-200 hover:ring-amber-300 transition">
+                    <p class="text-sm font-semibold text-amber-900">{{ __('Barber Approvals') }}</p>
+                    <p class="mt-2 text-3xl font-semibold text-amber-800">{{ $pendingBarbers ?? 0 }}</p>
+                    <p class="mt-1 text-xs text-amber-700">{{ __('Pending') }}</p>
+                </a>
             </div>
 
             <div class="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">

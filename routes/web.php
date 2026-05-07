@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AvailabilityBlockController;
+use App\Http\Controllers\BarbersApprovalController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,9 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
     Route::get('/dashboard', [DashboardController::class, 'admin'])->name('dashboard');
     Route::post('/availability-blocks', [AvailabilityBlockController::class, 'store'])->name('availability-blocks.store');
     Route::delete('/availability-blocks/{availabilityBlock}', [AvailabilityBlockController::class, 'destroy'])->name('availability-blocks.destroy');
+    Route::get('/barbers', [BarbersApprovalController::class, 'index'])->name('barbers.index');
+    Route::patch('/barbers/{barber}/approve', [BarbersApprovalController::class, 'approve'])->name('barbers.approve');
+    Route::delete('/barbers/{barber}', [BarbersApprovalController::class, 'reject'])->name('barbers.reject');
 });
 
 Route::middleware(['auth', 'verified', 'role:customer'])->group(function () {

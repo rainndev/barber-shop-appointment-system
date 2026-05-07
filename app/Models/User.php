@@ -23,7 +23,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        'role',
+        'is_approved',
     ];
 
     /**
@@ -77,6 +78,16 @@ class User extends Authenticatable
     public function isBarber(): bool
     {
         return $this->role === 'barber';
+    }
+
+    public function isApproved(): bool
+    {
+        return $this->is_approved;
+    }
+
+    public function isPendingApproval(): bool
+    {
+        return $this->isBarber() && !$this->is_approved;
     }
 
     public function isCustomer(): bool

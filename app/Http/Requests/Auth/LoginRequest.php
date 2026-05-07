@@ -50,6 +50,16 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        $user = Auth::user();
+
+        // Check if unapproved barber
+        if ($user->isPendingApproval()) {
+            Auth::logout();
+            throw ValidationException::withMessages([
+                'email' => 'Your barber account is pending admin approval. Please contact an administrator.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

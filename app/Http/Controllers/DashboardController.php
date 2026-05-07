@@ -79,6 +79,7 @@ class DashboardController extends Controller
             'waitingListCount' => WaitingListEntry::query()->where('status', 'waiting')->count(),
             'activeServicesCount' => Service::query()->where('is_active', true)->count(),
             'peakHour' => $peakHour?->hour,
+            'pendingBarbers' => User::query()->where('role', 'barber')->where('is_approved', false)->count(),
             'upcomingAppointments' => Appointment::query()
                 ->with(['customer', 'barber', 'service'])
                 ->where('scheduled_at', '>=', now())
