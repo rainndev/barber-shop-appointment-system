@@ -6,5 +6,15 @@
 
 @plugin "@tailwindcss/forms";
 
-@source "../../resources/views/**/*.blade.php";
-@source "../../vendor/asantibanez/livewire-calendar/resources/views/**/*.blade.php";
+@source "../views";
+@source "../js";
+@source "../../vendor/asantibanez/livewire-calendar/resources/views/*.blade.php";
+
+.hide-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
