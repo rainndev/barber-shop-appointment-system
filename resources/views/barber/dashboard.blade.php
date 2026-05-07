@@ -70,13 +70,13 @@
                                     <div class="flex gap-2">
                                         <form action="{{ route('appointments.accept', $appointment) }}" method="POST" class="flex-1">
                                             @csrf
-                                            <button type="submit" class="w-full rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700">
+                                            <button type="submit" class="w-full rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 cursor-pointer">
                                                 {{ __('Confirm') }}
                                             </button>
                                         </form>
                                         <form action="{{ route('appointments.decline', $appointment) }}" method="POST" class="flex-1">
                                             @csrf
-                                            <button type="submit" class="w-full rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-red-700">
+                                            <button type="submit" class="w-full rounded-lg bg-red-400 px-3 py-2 text-sm font-semibold text-white transition  cursor-pointer">
                                                 {{ __('Cancel') }}
                                             </button>
                                         </form>
