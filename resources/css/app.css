@@ -5,3 +5,6 @@
 }
 
 @plugin "@tailwindcss/forms";
+
+@source "../../resources/views/**/*.blade.php";
+@source "../../vendor/asantibanez/livewire-calendar/resources/views/**/*.blade.php";
