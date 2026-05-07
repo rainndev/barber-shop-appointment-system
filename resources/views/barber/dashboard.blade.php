@@ -26,10 +26,19 @@
             @endif
 
             <div class="grid gap-4 md:grid-cols-1">
-                <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <p class="text-sm text-gray-500">{{ __('Confirmed appointments') }}</p>
-                    <p class="mt-2 text-3xl font-semibold text-amber-600">{{ $appointments->count() }}</p>
-                </div>
+                <flux:card
+                    size="sm"
+                    class="rounded-2xl p-6 shadow-sm hover:bg-zinc-50 dark:hover:bg-zinc-800"
+                >
+                    <flux:text>Confirmed appointments</flux:text>
+
+                    <flux:heading
+                        size="xl"
+                        class="mt-2"
+                    >
+                        {{ $appointments->count() }}
+                    </flux:heading>
+                </flux:card>
             </div>
 
             <!-- Calendar View of confirm bookings -->

@@ -1,17 +1,24 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex flex-wrap items-center justify-between gap-3">
-            <div>
-                <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                    {{ __('Customer Dashboard') }}
-                </h2>
-                <p class="mt-1 text-sm text-gray-600">{{ __('Book, manage, and track your barber appointments in one place.') }}</p>
-            </div>
+       <div class="flex flex-wrap items-center justify-between gap-3">
+    <div>
+        <flux:heading size="xl">
+            Customer Dashboard
+        </flux:heading>
 
-            <a href="{{ route('appointments.index') }}" class="inline-flex items-center rounded-full bg-gray-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-700">
-                {{ __('Manage appointments') }}
-            </a>
-        </div>
+        <flux:text class="mt-1">
+            Book, manage, and track your barber appointments in one place.
+        </flux:text>
+    </div>
+
+    <flux:button
+        href="{{ route('appointments.index') }}"
+        variant="primary"
+        class="rounded-full"
+    >
+        Manage appointments
+    </flux:button>
+</div>
     </x-slot>
 
     <div class="py-12">
@@ -22,107 +29,205 @@
                 </div>
             @endif
 
-            <div class="grid gap-4 md:grid-cols-3">
-                <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <p class="text-sm text-gray-500">{{ __('Confirmed appointments') }}</p>
-                    <p class="mt-2 text-3xl font-semibold text-gray-900">{{ $upcomingAppointments->count() }}</p>
-                </div>
-                <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <p class="text-sm text-gray-500">{{ __('Waiting list entries') }}</p>
-                    <p class="mt-2 text-3xl font-semibold text-gray-900">{{ $waitingListEntries->count() }}</p>
-                </div>
-                <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <p class="text-sm text-gray-500">{{ __('Services available') }}</p>
-                    <p class="mt-2 text-3xl font-semibold text-gray-900">{{ $services->count() }}</p>
-                </div>
+           <div class="grid gap-4 md:grid-cols-3">
+
+                <!-- Confirmed Appointments -->
+                <flux:card
+                    size="sm"
+                    class="rounded-2xl p-6 shadow-sm hover:bg-zinc-50 dark:hover:bg-zinc-800"
+                >
+                    <flux:text>Confirmed appointments</flux:text>
+
+                    <flux:heading size="xl" class="mt-2 flex items-center gap-2">
+                        {{ $upcomingAppointments->count() }}
+                    </flux:heading>
+                </flux:card>
+
+                <!-- Waiting List -->
+                <flux:card
+                    size="sm"
+                    class="rounded-2xl p-6 shadow-sm hover:bg-zinc-50 dark:hover:bg-zinc-800"
+                >
+                    <flux:text>Waiting list entries</flux:text>
+
+                    <flux:heading size="xl" class="mt-2 flex items-center gap-2">
+                        {{ $waitingListEntries->count() }}
+                    </flux:heading>
+                </flux:card>
+
+                <!-- Services -->
+                <flux:card
+                    size="sm"
+                    class="rounded-2xl p-6 shadow-sm hover:bg-zinc-50 dark:hover:bg-zinc-800"
+                >
+                    <flux:text>Services available</flux:text>
+
+                    <flux:heading size="xl" class="mt-2 flex items-center gap-2">
+                        {{ $services->count() }}
+                    </flux:heading>
+                </flux:card>
+
             </div>
 
             <div class="grid gap-6 ">
-                <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <div class="flex items-center justify-between gap-3">
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-900">{{ __('Confirmed appointment calendar') }}</h3>
-                            <p class="text-sm text-gray-500">{{ __('Calendar view of your confirmed bookings') }}</p>
-                        </div>
-                        <div class="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-gray-600">
-                            {{ __('Month view') }}
-                        </div>
-                    </div>
 
-                      <!-- Calendar view of confirmed appointments -->
-                    <div class="mt-6 overflow-hidden rounded-3xl border border-gray-200">
-                        <livewire:appointment-calendar :day-click-enabled="false" :event-click-enabled="false" :drag-and-drop-enabled="false" />
-                    </div>
+                <flux:card class="rounded-3xl p-6 shadow-sm space-y-6">
 
-                      <!-- Table of upcoming appointments -->
-                    <div class="mt-6">
-                        <div class="flex items-center justify-between gap-3">
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">{{ __('Confirmed visits') }}</h3>
-                                <p class="text-sm text-gray-500">{{ __('Review the bookings the barber has already confirmed.') }}</p>
-                            </div>
-                            <a href="{{ route('appointments.index') }}" class="text-sm font-semibold text-gray-700 hover:text-gray-900">{{ __('Open scheduler') }}</a>
-                        </div>
+    <!-- Header -->
+    <div class="flex items-center justify-between gap-3">
 
-                        <div class="mt-6 overflow-hidden rounded-2xl border border-gray-200">
-                            <table class="min-w-full divide-y divide-gray-200 text-sm">
-                                <thead class="bg-gray-50 text-left text-gray-500">
-                                    <tr>
-                                        <th class="px-4 py-3 font-medium">{{ __('When') }}</th>
-                                        <th class="px-4 py-3 font-medium">{{ __('Service') }}</th>
-                                        <th class="px-4 py-3 font-medium">{{ __('Barber') }}</th>
-                                        <th class="px-4 py-3 font-medium">{{ __('Status') }}</th>
-                                        <th class="px-4 py-3 font-medium">{{ __('Action') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-200 bg-white">
-                                    @forelse ($upcomingAppointments as $appointment)
-                                        <tr>
-                                            <td class="px-4 py-3 text-gray-900">{{ $appointment->scheduled_at->format('M d, Y g:i A') }}</td>
-                                            <td class="px-4 py-3 text-gray-600">{{ $appointment->service->name }}</td>
-                                            <td class="px-4 py-3 text-gray-600">{{ $appointment->barber?->name ?? __('To be assigned') }}</td>
-                                            <td class="px-4 py-3">
-                                                @if ($appointment->status === 'pending')
-                                                    <span class="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800">{{ __('Pending') }}</span>
-                                                @elseif ($appointment->status === 'confirmed')
-                                                    <span class="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-800">{{ __('Confirmed') }}</span>
-                                                @elseif ($appointment->status === 'cancelled')
-                                                    <span class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">{{ __('Cancelled') }}</span>
-                                                @endif
-                                            </td>
-                                            <td class="px-4 py-3">
-                                                <a href="{{ route('appointments.show', $appointment) }}" class="font-semibold text-gray-700 hover:text-gray-900">{{ __('View') }}</a>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="5" class="px-4 py-8 text-center text-gray-500">{{ __('No upcoming appointments yet.') }}</td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+        <div>
+            <flux:heading size="lg">
+                Confirmed appointment calendar
+            </flux:heading>
+
+            <flux:text class="mt-1">
+                Calendar view of your confirmed bookings
+            </flux:text>
+        </div>
+
+        <flux:badge variant="subtle">
+            Month view
+        </flux:badge>
+
+    </div>
+
+    <!-- Calendar -->
+    <div class="overflow-hidden rounded-3xl border border-zinc-200 dark:border-zinc-800">
+        <livewire:appointment-calendar
+            :day-click-enabled="false"
+            :event-click-enabled="false"
+            :drag-and-drop-enabled="false"
+        />
+    </div>
+
+    <!-- Table Header -->
+    <div class="flex items-center justify-between gap-3">
+
+        <div>
+            <flux:heading size="lg">
+                Confirmed visits
+            </flux:heading>
+
+            <flux:text class="mt-1">
+                Review the bookings the barber has already confirmed.
+            </flux:text>
+        </div>
+
+        <flux:button variant="primary" href="{{ route('appointments.index') }}">
+            Open scheduler
+        </flux:button>
+
+    </div>
+
+    <!-- Table -->
+    <flux:table>
+
+    <!-- Columns -->
+    <flux:table.columns>
+        <flux:table.column>When</flux:table.column>
+        <flux:table.column>Service</flux:table.column>
+        <flux:table.column>Barber</flux:table.column>
+        <flux:table.column>Status</flux:table.column>
+        <flux:table.column>Action</flux:table.column>
+    </flux:table.columns>
+
+    <!-- Rows -->
+    <flux:table.rows>
+
+        @forelse ($upcomingAppointments as $appointment)
+            <flux:table.row>
+
+                <flux:table.cell>
+                    {{ $appointment->scheduled_at->format('M d, Y g:i A') }}
+                </flux:table.cell>
+
+                <flux:table.cell>
+                    {{ $appointment->service->name }}
+                </flux:table.cell>
+
+                <flux:table.cell>
+                    {{ $appointment->barber?->name ?? 'To be assigned' }}
+                </flux:table.cell>
+
+                <flux:table.cell>
+
+                    @if ($appointment->status === 'pending')
+                        <flux:badge color="amber" size="sm">Pending</flux:badge>
+
+                    @elseif ($appointment->status === 'confirmed')
+                        <flux:badge color="emerald" size="sm">Confirmed</flux:badge>
+
+                    @elseif ($appointment->status === 'cancelled')
+                        <flux:badge color="red" size="sm">Cancelled</flux:badge>
+                    @endif
+
+                </flux:table.cell>
+
+                <flux:table.cell>
+                    <flux:link href="{{ route('appointments.show', $appointment) }}">
+                        View
+                    </flux:link>
+                </flux:table.cell>
+
+            </flux:table.row>
+
+        @empty
+            <flux:table.row>
+                <flux:table.cell colspan="5">
+                    No upcoming appointments yet.
+                </flux:table.cell>
+            </flux:table.row>
+        @endforelse
+
+    </flux:table.rows>
+
+</flux:table>
+
+</flux:card>
 
          <!-- Waiting List -->
-            </div>
-                <div class="space-y-6">
-                    <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                        <h3 class="text-lg font-semibold text-gray-900">{{ __('Waiting list') }}</h3>
-                        <div class="mt-4 space-y-3">
-                            @forelse ($waitingListEntries as $entry)
-                                <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700">
-                                    <p class="font-semibold text-gray-900">{{ $entry->service->name }}</p>
-                                    <p class="mt-1">{{ __('Status:') }} {{ ucfirst($entry->status) }}</p>
-                                    <p>{{ __('Preferred date:') }} {{ $entry->preferred_date?->format('M d, Y') ?? __('Any') }}</p>
-                                </div>
-                            @empty
-                                <p class="text-sm text-gray-500">{{ __('You do not have any waiting list entries.') }}</p>
-                            @endforelse
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </div>
+     <div class="space-y-6">
+
+    <flux:card class="rounded-3xl p-6 shadow-sm">
+
+        <!-- Header -->
+        <flux:heading size="lg">
+            Waiting list
+        </flux:heading>
+
+        <div class="mt-4 space-y-3">
+
+            @forelse ($waitingListEntries as $entry)
+
+                <flux:card class="p-4 rounded-2xl">
+
+                    <flux:text class="font-semibold">
+                        {{ $entry->service->name }}
+                    </flux:text>
+
+                    <flux:text class="mt-1">
+                        Status: {{ ucfirst($entry->status) }}
+                    </flux:text>
+
+                    <flux:text>
+                        Preferred date:
+                        {{ $entry->preferred_date?->format('M d, Y') ?? 'Any' }}
+                    </flux:text>
+
+                </flux:card>
+
+            @empty
+
+                <flux:text class="text-zinc-500">
+                    You do not have any waiting list entries.
+                </flux:text>
+
+            @endforelse
+
+        </div>
+
+    </flux:card>
+
+</div>
 </x-app-layout>

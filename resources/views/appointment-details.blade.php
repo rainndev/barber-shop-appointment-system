@@ -1,104 +1,189 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex flex-wrap items-center justify-between gap-3">
-            <div>
-                <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                    {{ __('Appointment Details') }}
-                </h2>
-                <p class="mt-1 text-sm text-gray-600">{{ __('Review, reschedule, cancel, or export this booking.') }}</p>
-            </div>
+       <div class="flex flex-wrap items-center justify-between gap-3">
 
-            <a href="{{ route('appointments.index') }}" class="inline-flex items-center rounded-full bg-gray-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-700">
-                {{ __('Back to appointments') }}
-            </a>
-        </div>
+    <div>
+        <flux:heading size="xl">
+            Appointment Details
+        </flux:heading>
+
+        <flux:text class="mt-1">
+            Review, reschedule, cancel, or export this booking.
+        </flux:text>
+    </div>
+
+    <flux:button
+        href="{{ route('appointments.index') }}"
+        variant="filled"
+        class="rounded-full"
+    >
+        Back to appointments
+    </flux:button>
+
+</div>
     </x-slot>
 
     <div class="py-12">
-        <div class="mx-auto max-w-5xl space-y-6 px-4 sm:px-6 lg:px-8">
-            @if (session('status'))
-                <div class="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-                    {{ session('status') }}
-                </div>
-            @endif
+    <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
 
-            <div class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-                <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-900">{{ $appointment->service->name }}</h3>
-                    <dl class="mt-6 grid gap-4 text-sm text-gray-700 sm:grid-cols-2">
-                        <div>
-                            <dt class="font-semibold text-gray-900">{{ __('Customer') }}</dt>
-                            <dd class="mt-1">{{ $appointment->customer->name }}</dd>
-                        </div>
-                        <div>
-                            <dt class="font-semibold text-gray-900">{{ __('Barber') }}</dt>
-                            <dd class="mt-1">{{ $appointment->barber?->name ?? __('To be assigned') }}</dd>
-                        </div>
-                        <div>
-                            <dt class="font-semibold text-gray-900">{{ __('Scheduled at') }}</dt>
-                            <dd class="mt-1">{{ $appointment->scheduled_at->format('M d, Y g:i A') }}</dd>
-                        </div>
-                        <div>
-                            <dt class="font-semibold text-gray-900">{{ __('Ends at') }}</dt>
-                            <dd class="mt-1">{{ $appointment->ends_at->format('M d, Y g:i A') }}</dd>
-                        </div>
-                        <div>
-                            <dt class="font-semibold text-gray-900">{{ __('Status') }}</dt>
-                            <dd class="mt-1">{{ ucfirst($appointment->status) }}</dd>
-                        </div>
-                        <div>
-                            <dt class="font-semibold text-gray-900">{{ __('Notes') }}</dt>
-                            <dd class="mt-1">{{ $appointment->notes ?: __('No notes added.') }}</dd>
-                        </div>
-                    </dl>
-                </div>
+        <!-- Status -->
+        @if (session('status'))
+            <flux:badge color="emerald" class="px-4 py-2">
+                {{ session('status') }}
+            </flux:badge>
+        @endif
 
-                <div class="space-y-6">
-                    <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                        <h3 class="text-lg font-semibold text-gray-900">{{ __('Calendar integration') }}</h3>
-                        <div class="mt-4 space-y-3 text-sm text-gray-700">
-                            <a href="{{ $calendarUrl }}" target="_blank" class="block rounded-2xl bg-gray-900 px-4 py-3 text-center font-semibold text-white transition hover:bg-gray-700">
-                                {{ __('Open in Google Calendar') }}
-                            </a>
-                            <a href="{{ route('appointments.ics', $appointment) }}" class="block rounded-2xl border border-gray-300 px-4 py-3 text-center font-semibold text-gray-700 transition hover:bg-gray-50">
-                                {{ __('Download ICS file') }}
-                            </a>
-                        </div>
+        <div class="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+
+            <!-- LEFT: Appointment Info -->
+            <flux:card class="p-10 rounded-3xl">
+                <flux:heading size="lg">
+                    {{ $appointment->service->name }}
+                </flux:heading>
+
+                <dl class="mt-6 grid gap-5 text-sm sm:grid-cols-2">
+
+                    <div>
+                        <flux:heading size="lg" >Customer</flux:heading>
+                        <flux:text class="mt-1">{{ $appointment->customer->name }}</flux:text>
                     </div>
 
-                    <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                        <h3 class="text-lg font-semibold text-gray-900">{{ __('Edit appointment') }}</h3>
-                        <form method="POST" action="{{ route('appointments.update', $appointment) }}" class="mt-4 space-y-4">
-                            @csrf
-                            @method('PUT')
-                            <div>
-                                <label class="text-sm font-medium text-gray-700">{{ __('Reschedule to') }}</label>
-                                <input type="datetime-local" name="scheduled_at" value="{{ $appointment->scheduled_at->format('Y-m-d\TH:i') }}" class="mt-1 w-full rounded-xl border-gray-300">
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium text-gray-700">{{ __('Notes') }}</label>
-                                <textarea name="notes" rows="4" class="mt-1 w-full rounded-xl border-gray-300">{{ $appointment->notes }}</textarea>
-                            </div>
-                            <div class="flex flex-wrap gap-3">
-                                <button type="submit" class="rounded-full bg-amber-400 px-5 py-2.5 text-sm font-semibold text-gray-950 transition hover:bg-amber-300">
-                                    {{ __('Save changes') }}
-                                </button>
-                            </div>
-                        </form>
+                    <div>
+                        <flux:heading size="lg" >Barber</flux:heading>
+                        <flux:text class="mt-1">
+                            {{ $appointment->barber?->name ?? 'To be assigned' }}
+                        </flux:text>
                     </div>
 
-                    <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                        <h3 class="text-lg font-semibold text-gray-900">{{ __('Cancel appointment') }}</h3>
-                        <form method="POST" action="{{ route('appointments.destroy', $appointment) }}" class="mt-4">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="rounded-full bg-red-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-red-500">
-                                {{ __('Cancel booking') }}
-                            </button>
-                        </form>
+                    <div>
+                        <flux:heading size="lg" >Scheduled at</flux:heading>
+                        <flux:text class="mt-1">
+                            {{ $appointment->scheduled_at->format('M d, Y g:i A') }}
+                        </flux:text>
                     </div>
-                </div>
+
+                    <div>
+                        <flux:heading size="lg" >Ends at</flux:heading>
+                        <flux:text class="mt-1">
+                            {{ $appointment->ends_at->format('M d, Y g:i A') }}
+                        </flux:text>
+                    </div>
+
+                    <div>
+                        <flux:heading size="lg" >Status</flux:heading>    
+                        <flux:text class="mt-1">
+                            {{ ucfirst($appointment->status) }}
+                        </flux:text>
+                    </div>
+
+                    <div>
+                        <flux:heading size="lg" >Notes</flux:heading>    
+                        <flux:text class="mt-1">
+                            {{ $appointment->notes ?: 'No notes added.' }}
+                        </flux:text>
+                    </div>
+
+                </dl>
+
+            </flux:card>
+
+            <!-- RIGHT SIDE -->
+            <div class="space-y-6">
+
+                <!-- Calendar Integration -->
+                <flux:card class="p-6 rounded-3xl">
+
+                    <flux:heading size="lg">
+                        Calendar integration
+                    </flux:heading>
+
+                    <div class="mt-4 space-y-3">
+
+                        <flux:button
+                            href="{{ $calendarUrl }}"
+                            target="_blank"
+                            variant="primary"
+                            class="w-full"
+                        >
+                            Open in Google Calendar
+                        </flux:button>
+
+                        <flux:button
+                            href="{{ route('appointments.ics', $appointment) }}"
+                            variant="ghost"
+                            class="w-full"
+                        >
+                            Download ICS file
+                        </flux:button>
+
+                    </div>
+
+                </flux:card>
+
+                <!-- Edit -->
+                <flux:card class="p-6 rounded-3xl">
+
+                    <flux:heading size="lg">
+                        Edit appointment
+                    </flux:heading>
+
+                    <form method="POST" action="{{ route('appointments.update', $appointment) }}" class="mt-4 space-y-4">
+                        @csrf
+                        @method('PUT')
+
+                        <div>
+                            <flux:label>Reschedule to</flux:label>
+                            <input
+                                type="datetime-local"
+                                name="scheduled_at"
+                                value="{{ $appointment->scheduled_at->format('Y-m-d\TH:i') }}"
+                                class="mt-1 w-full rounded-xl border-zinc-300 dark:border-zinc-700"
+                            />
+                        </div>
+
+                        <div>
+                            <flux:label>Notes</flux:label>
+
+                            <flux:textarea
+                                name="notes"
+                                rows="4"
+                            >
+                                {{ $appointment->notes }}
+                            </flux:textarea>
+                        </div>
+
+                        <flux:button type="submit" variant="primary" class="w-full">
+                            Save changes
+                        </flux:button>
+
+                    </form>
+
+                </flux:card>
+
+                <!-- Cancel -->
+                <flux:card class="p-6 rounded-3xl">
+
+                    <flux:heading size="lg" >
+                        Cancel appointment
+                    </flux:heading>
+
+                    <form method="POST" action="{{ route('appointments.destroy', $appointment) }}" class="mt-4">
+                        @csrf
+                        @method('DELETE')
+
+                        <flux:button type="submit" variant="filled" class="w-full">
+                            Cancel booking
+                        </flux:button>
+
+                    </form>
+
+                </flux:card>
+
             </div>
+
         </div>
+
     </div>
+
+</div>
 </x-app-layout>

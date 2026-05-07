@@ -21,27 +21,74 @@
             @endif
 
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <p class="text-sm text-gray-500">{{ __('Total bookings') }}</p>
-                    <p class="mt-2 text-3xl font-semibold text-gray-900">{{ $totalBookings }}</p>
-                </div>
-                <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <p class="text-sm text-gray-500">{{ __('Cancelled bookings') }}</p>
-                    <p class="mt-2 text-3xl font-semibold text-gray-900">{{ $cancelledBookings }}</p>
-                </div>
-                <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <p class="text-sm text-gray-500">{{ __('Waiting list') }}</p>
-                    <p class="mt-2 text-3xl font-semibold text-gray-900">{{ $waitingListCount }}</p>
-                </div>
-                <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <p class="text-sm text-gray-500">{{ __('Peak hour') }}</p>
-                    <p class="mt-2 text-3xl font-semibold text-gray-900">{{ $peakHour !== null ? sprintf('%02d:00', $peakHour) : __('N/A') }}</p>
-                </div>
-                <a href="{{ route('admin.barbers.index') }}" class="rounded-2xl bg-gradient-to-br from-amber-50 to-amber-100 p-6 shadow-sm ring-1 ring-amber-200 hover:ring-amber-300 transition">
-                    <p class="text-sm font-semibold text-amber-900">{{ __('Barber Approvals') }}</p>
-                    <p class="mt-2 text-3xl font-semibold text-amber-800">{{ $pendingBarbers ?? 0 }}</p>
-                    <p class="mt-1 text-xs text-amber-700">{{ __('Pending') }}</p>
-                </a>
+
+                <!-- Total Bookings -->
+                <flux:card
+                    size="sm"
+                    class="rounded-2xl p-6 shadow-sm hover:bg-zinc-50 dark:hover:bg-zinc-800"
+                >
+                    <flux:text>Total bookings</flux:text>
+
+                    <flux:heading size="xl" class="mt-2">
+                        {{ $totalBookings }}
+                    </flux:heading>
+                </flux:card>
+
+                <!-- Cancelled Bookings -->
+                <flux:card
+                    size="sm"
+                    class="rounded-2xl p-6 shadow-sm hover:bg-zinc-50 dark:hover:bg-zinc-800"
+                >
+                    <flux:text>Cancelled bookings</flux:text>
+
+                    <flux:heading size="xl" class="mt-2">
+                        {{ $cancelledBookings }}
+                    </flux:heading>
+                </flux:card>
+
+                <!-- Waiting List -->
+                <flux:card
+                    size="sm"
+                    class="rounded-2xl p-6 shadow-sm hover:bg-zinc-50 dark:hover:bg-zinc-800"
+                >
+                    <flux:text>Waiting list</flux:text>
+
+                    <flux:heading size="xl" class="mt-2">
+                        {{ $waitingListCount }}
+                    </flux:heading>
+                </flux:card>
+
+                <!-- Peak Hour -->
+                <flux:card
+                    size="sm"
+                    class="rounded-2xl p-6 shadow-sm hover:bg-zinc-50 dark:hover:bg-zinc-800"
+                >
+                    <flux:text>Peak hour</flux:text>
+
+                    <flux:heading size="xl" class="mt-2">
+                        {{ $peakHour !== null ? sprintf('%02d:00', $peakHour) : 'N/A' }}
+                    </flux:heading>
+                </flux:card>
+
+                <!-- Barber Approvals (special highlight card) -->
+                <flux:card
+                    as="a"
+                    href="{{ route('admin.barbers.index') }}"
+                    class="rounded-2xl p-6 shadow-sm bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/20 hover:ring-amber-300 transition"
+                >
+                    <flux:text class="text-amber-900 dark:text-amber-200 font-semibold">
+                        Barber Approvals
+                    </flux:text>
+
+                    <flux:heading size="xl" class="mt-2 text-amber-800 dark:text-amber-200">
+                        {{ $pendingBarbers ?? 0 }}
+                    </flux:heading>
+
+                    <flux:text class="mt-1 text-xs text-amber-700 dark:text-amber-300">
+                        Pending
+                    </flux:text>
+                </flux:card>
+
             </div>
 
             <div class="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
