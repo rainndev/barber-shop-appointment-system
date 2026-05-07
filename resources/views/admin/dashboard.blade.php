@@ -8,9 +8,7 @@
                 <p class="mt-1 text-sm text-gray-600">{{ __('Monitor bookings, block slots, and track shop demand.') }}</p>
             </div>
 
-            <a href="{{ route('appointments.index') }}" class="inline-flex items-center rounded-full bg-gray-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-700">
-                {{ __('Open appointments') }}
-            </a>
+            
         </div>
     </x-slot>
 
