@@ -1,14 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-wrap items-center justify-between gap-3">
+
             <div>
-                <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                    {{ __('Admin Dashboard') }}
-                </h2>
-                <p class="mt-1 text-sm text-gray-600">{{ __('Monitor bookings, block slots, and track shop demand.') }}</p>
+                <flux:heading size="xl">
+                    Admin Dashboard
+                </flux:heading>
+
+                <flux:text class="mt-1">
+                    Monitor bookings, block slots, and track shop demand.
+                </flux:text>
             </div>
 
-            
         </div>
     </x-slot>
 
@@ -69,117 +72,200 @@
                         {{ $peakHour !== null ? sprintf('%02d:00', $peakHour) : 'N/A' }}
                     </flux:heading>
                 </flux:card>
-
-                <!-- Barber Approvals (special highlight card) -->
-                <flux:card
-                    as="a"
-                    href="{{ route('admin.barbers.index') }}"
-                    class="rounded-2xl p-6 shadow-sm bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/20 hover:ring-amber-300 transition"
-                >
-                    <flux:text class="text-amber-900 dark:text-amber-200 font-semibold">
-                        Barber Approvals
-                    </flux:text>
-
-                    <flux:heading size="xl" class="mt-2 text-amber-800 dark:text-amber-200">
-                        {{ $pendingBarbers ?? 0 }}
-                    </flux:heading>
-
-                    <flux:text class="mt-1 text-xs text-amber-700 dark:text-amber-300">
-                        Pending
-                    </flux:text>
-                </flux:card>
-
-            </div>
-
-            <div class="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
-                <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-900">{{ __('Block time slots') }}</h3>
-                    <form method="POST" action="{{ route('admin.availability-blocks.store') }}" class="mt-6 grid gap-4 md:grid-cols-2">
-                        @csrf
-                        <div>
-                            <label class="text-sm font-medium text-gray-700">{{ __('Barber') }}</label>
-                            <select name="barber_id" class="mt-1 w-full rounded-xl border-gray-300">
-                                <option value="">{{ __('Whole shop') }}</option>
-                                @foreach ($barbers as $barber)
-                                    <option value="{{ $barber->id }}">{{ $barber->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div>
-                            <label class="text-sm font-medium text-gray-700">{{ __('Reason') }}</label>
-                            <input type="text" name="reason" class="mt-1 w-full rounded-xl border-gray-300" placeholder="{{ __('Lunch break, holiday, maintenance') }}">
-                        </div>
-                        <div>
-                            <label class="text-sm font-medium text-gray-700">{{ __('Starts at') }}</label>
-                            <input type="datetime-local" name="starts_at" class="mt-1 w-full rounded-xl border-gray-300" required>
-                        </div>
-                        <div>
-                            <label class="text-sm font-medium text-gray-700">{{ __('Ends at') }}</label>
-                            <input type="datetime-local" name="ends_at" class="mt-1 w-full rounded-xl border-gray-300" required>
-                        </div>
-                        <div class="md:col-span-2">
-                            <button type="submit" class="rounded-full bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-700">
-                                {{ __('Save block') }}
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-900">{{ __('Analytics snapshot') }}</h3>
-                    <div class="mt-4 space-y-3 text-sm text-gray-700">
-                        <p>{{ __('Active services:') }} {{ $services->count() }}</p>
-                        <p>{{ __('Active barbers:') }} {{ $barbers->count() }}</p>
-                        <p>{{ __('Upcoming appointments:') }} {{ $upcomingAppointments->count() }}</p>
-                    </div>
-                </div>
             </div>
 
             <div class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-                <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-900">{{ __('Upcoming appointments') }}</h3>
-                    <div class="mt-6 overflow-hidden rounded-2xl border border-gray-200">
-                        <table class="min-w-full divide-y divide-gray-200 text-sm">
-                            <thead class="bg-gray-50 text-left text-gray-500">
-                                <tr>
-                                    <th class="px-4 py-3 font-medium">{{ __('When') }}</th>
-                                    <th class="px-4 py-3 font-medium">{{ __('Customer') }}</th>
-                                    <th class="px-4 py-3 font-medium">{{ __('Service') }}</th>
-                                    <th class="px-4 py-3 font-medium">{{ __('Barber') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200 bg-white">
-                                @forelse ($upcomingAppointments as $appointment)
-                                    <tr>
-                                        <td class="px-4 py-3 text-gray-900">{{ $appointment->scheduled_at->format('M d, Y g:i A') }}</td>
-                                        <td class="px-4 py-3 text-gray-600">{{ $appointment->customer->name }}</td>
-                                        <td class="px-4 py-3 text-gray-600">{{ $appointment->service->name }}</td>
-                                        <td class="px-4 py-3 text-gray-600">{{ $appointment->barber?->name ?? __('Unassigned') }}</td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="4" class="px-4 py-8 text-center text-gray-500">{{ __('No upcoming appointments yet.') }}</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+
+             <!-- Block Time Slots -->
+         <flux:card class="rounded-3xl p-6 shadow-sm space-y-6">
+
+                <flux:heading size="lg">
+                    Block time slots
+                </flux:heading>
+
+                <form method="POST" action="{{ route('admin.availability-blocks.store') }}" class="grid gap-4 md:grid-cols-2">
+                    @csrf
+
+                    <!-- Barber -->
+                    <div class="md:col-span-2">
+                        <flux:select name="barber_id" label="Barber">
+                            <flux:select.option value="">Whole shop</flux:select.option>
+
+                            @foreach ($barbers as $barber)
+                                <flux:select.option value="{{ $barber->id }}">
+                                    {{ $barber->name }}
+                                </flux:select.option>
+                            @endforeach
+                        </flux:select>
+                    </div>
+
+                    <!-- Reason -->
+                    <div class="md:col-span-2">
+                        <flux:input
+                            name="reason"
+                            label="Reason"
+                            placeholder="Lunch break, holiday, maintenance"
+                        />
+                    </div>
+
+                    <!-- Starts At -->
+                    <div>
+                        <flux:input
+                            type="datetime-local"
+                            name="starts_at"
+                            label="Starts at"
+                            required
+                        />
+                    </div>
+
+                    <!-- Ends At -->
+                    <div>
+                        <flux:input
+                            type="datetime-local"
+                            name="ends_at"
+                            label="Ends at"
+                            required
+                        />
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="md:col-span-2">
+                        <flux:button type="submit" variant="primary" class="w-full">
+                            Save block
+                        </flux:button>
+                    </div>
+
+                </form>
+
+            </flux:card>
+
+            <!-- Analytics -->
+            <flux:card class="rounded-3xl p-6 shadow-sm space-y-4">
+
+                <flux:heading size="lg">
+                    Analytics snapshot
+                </flux:heading>
+
+                <div class="space-y-3 text-sm text-zinc-700 dark:text-zinc-300">
+                    <div class="flex justify-between">
+                        <span>Active services</span>
+                        <span class="font-semibold">{{ $services->count() }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span>Active barbers</span>
+                        <span class="font-semibold">{{ $barbers->count() }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span>Upcoming appointments</span>
+                        <span class="font-semibold">{{ $upcomingAppointments->count() }}</span>
                     </div>
                 </div>
 
-                <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-900">{{ __('Blocked slots') }}</h3>
-                    <div class="mt-4 space-y-3">
-                        @forelse ($blocks as $block)
-                            <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700">
-                                <p class="font-semibold text-gray-900">{{ $block->starts_at->format('M d, Y g:i A') }} - {{ $block->ends_at->format('g:i A') }}</p>
-                                <p class="mt-1">{{ $block->barber?->name ?? __('Whole shop') }} · {{ $block->reason ?? __('No reason provided') }}</p>
-                            </div>
-                        @empty
-                            <p class="text-sm text-gray-500">{{ __('No blocks have been created yet.') }}</p>
-                        @endforelse
-                    </div>
-                </div>
-            </div>
+            </flux:card>
+
+        </div>
+            <div class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+
+    <!-- Upcoming Appointments -->
+    <flux:card class="rounded-3xl p-6 shadow-sm space-y-4">
+
+        <flux:heading size="lg">
+            Upcoming appointments
+        </flux:heading>
+
+        <flux:table>
+
+            <flux:table.columns>
+                <flux:table.column>When</flux:table.column>
+                <flux:table.column>Customer</flux:table.column>
+                <flux:table.column>Service</flux:table.column>
+                <flux:table.column>Barber</flux:table.column>
+            </flux:table.columns>
+
+            <flux:table.rows>
+
+                @forelse ($upcomingAppointments as $appointment)
+
+                    <flux:table.row>
+
+                        <flux:table.cell>
+                            {{ $appointment->scheduled_at->format('M d, Y g:i A') }}
+                        </flux:table.cell>
+
+                        <flux:table.cell>
+                            {{ $appointment->customer->name }}
+                        </flux:table.cell>
+
+                        <flux:table.cell>
+                            {{ $appointment->service->name }}
+                        </flux:table.cell>
+
+                        <flux:table.cell>
+                            {{ $appointment->barber?->name ?? 'Unassigned' }}
+                        </flux:table.cell>
+
+                    </flux:table.row>
+
+                @empty
+
+                    <flux:table.row>
+                        <flux:table.cell colspan="4">
+                            <flux:text class="text-center text-zinc-500">
+                                No upcoming appointments yet.
+                            </flux:text>
+                        </flux:table.cell>
+                    </flux:table.row>
+
+                @endforelse
+
+            </flux:table.rows>
+
+        </flux:table>
+
+    </flux:card>
+
+    <!-- Blocked Slots -->
+    <flux:card class="rounded-3xl p-6 shadow-sm space-y-4">
+
+        <flux:heading size="lg">
+            Blocked slots
+        </flux:heading>
+
+        <div class="space-y-3">
+
+            @forelse ($blocks as $block)
+
+                <flux:card class="p-4 rounded-2xl">
+
+                    <flux:text class="font-semibold">
+                        {{ $block->starts_at->format('M d, Y g:i A') }}
+                        -
+                        {{ $block->ends_at->format('g:i A') }}
+                    </flux:text>
+
+                    <flux:text class="mt-1">
+                        {{ $block->barber?->name ?? 'Whole shop' }}
+                        ·
+                        {{ $block->reason ?? 'No reason provided' }}
+                    </flux:text>
+
+                </flux:card>
+
+            @empty
+
+                <flux:text class="text-zinc-500">
+                    No blocks have been created yet.
+                </flux:text>
+
+            @endforelse
+
+        </div>
+
+    </flux:card>
+
+</div>
         </div>
     </div>
 </x-app-layout>
