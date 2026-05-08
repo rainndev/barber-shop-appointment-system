@@ -1,67 +1,67 @@
-<section class="space-y-6">
-    <header>
-        <h2 class="text-lg font-medium text-gray-900">
+<flux:card class="space-y-6">
+    <div>
+        <flux:heading size="lg" class="text-red-400">
             {{ __('Delete Account') }}
-        </h2>
+        </flux:heading>
 
-        <p class="mt-1 text-sm text-gray-600">
+        <flux:text class="mt-2">
             {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
-        </p>
-    </header>
+        </flux:text>
+    </div>
 
-    <x-danger-button
-        x-data=""
-        x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-        >{{ __('Delete Account') }}</x-danger-button
-    >
+    <flux:modal.trigger name="confirm-user-deletion">
+        <flux:button variant="primary">
+            {{ __('Delete Account') }}
+        </flux:button>
+    </flux:modal.trigger>
 
-    <x-modal
-        name="confirm-user-deletion"
-        :show="$errors->userDeletion->isNotEmpty()"
-        focusable
-    >
-        <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
+    <flux:modal name="confirm-user-deletion" class="md:w-96">
+        <form
+            method="POST"
+            action="{{ route('profile.destroy') }}"
+            class="space-y-6"
+        >
             @csrf
-            @method ('delete')
+            @method ('DELETE')
 
-            <h2 class="text-lg font-medium text-gray-900">
-                {{ __('Are you sure you want to delete your account?') }}
-            </h2>
+            <div>
+                <flux:heading size="lg">
+                    {{ __('Are you sure you want to delete your account?') }}
+                </flux:heading>
 
-            <p class="mt-1 text-sm text-gray-600">
-                {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
-            </p>
+                <flux:text class="mt-2">
+                    {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm.') }}
+                </flux:text>
+            </div>
 
-            <div class="mt-6">
-                <x-input-label
-                    for="password"
-                    value="{{ __('Password') }}"
-                    class="sr-only"
-                />
+            <!-- Password -->
+            <flux:field>
+                <flux:label for="password"> {{ __('Password') }} </flux:label>
 
-                <x-text-input
+                <flux:input
                     id="password"
                     name="password"
                     type="password"
-                    class="mt-1 block w-3/4"
                     placeholder="{{ __('Password') }}"
                 />
 
-                <x-input-error
-                    :messages="$errors->userDeletion->get('password')"
-                    class="mt-2"
-                />
-            </div>
+                <flux:error name="password" />
+            </flux:field>
 
-            <div class="mt-6 flex justify-end">
-                <x-secondary-button x-on:click="$dispatch('close')">
+            <!-- Actions -->
+            <div class="flex justify-end gap-3">
+                <flux:button
+                    type="button"
+                    variant="ghost"
+                    x-on:click="$dispatch('close')"
+                >
                     {{ __('Cancel') }}
-                </x-secondary-button>
+                </flux:button>
 
-                <x-danger-button class="ms-3">
+                <flux:button type="submit" variant="primary">
                     {{ __('Delete Account') }}
-                </x-danger-button>
+                </flux:button>
             </div>
         </form>
-    </x-modal>
-</section>
+    </flux:modal>
+</flux:card>
