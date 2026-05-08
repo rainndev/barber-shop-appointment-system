@@ -1,108 +1,202 @@
 <x-app-layout>
     <x-slot name="header">
+
         <div class="flex flex-wrap items-center justify-between gap-3">
+
             <div>
-                <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                    {{ __('Barber Dashboard') }}
-                </h2>
-                <p class="mt-1 text-sm text-gray-600">{{ __('Review pending appointment requests and manage your schedule.') }}</p>
+                <flux:heading size="xl">
+                    Barber Dashboard
+                </flux:heading>
+
+                <flux:text class="mt-1">
+                    Review pending appointment requests and manage your schedule.
+                </flux:text>
             </div>
 
         </div>
+
     </x-slot>
 
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
-            @if (session('status'))
-                <div class="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-                    {{ session('status') }}
-                </div>
-            @endif
+        <div class="py-12">
 
-            @if (session('error'))
-                <div class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-                    {{ session('error') }}
-                </div>
-            @endif
+            <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
 
-            <div class="grid gap-4 md:grid-cols-1">
-                <flux:card
-                    size="sm"
-                    class="rounded-2xl p-6 shadow-sm hover:bg-zinc-50 dark:hover:bg-zinc-800"
-                >
+                @if (session('status'))
+                    <flux:badge color="emerald" class="px-4 py-2">
+                        {{ session('status') }}
+                    </flux:badge>
+                @endif
+
+                @if (session('error'))
+                    <flux:badge color="red" class="px-4 py-2">
+                        {{ session('error') }}
+                    </flux:badge>
+                @endif
+
+                <!-- Stats -->
+                <flux:card class="rounded-3xl p-6 shadow-sm">
                     <flux:text>Confirmed appointments</flux:text>
 
-                    <flux:heading
-                        size="xl"
-                        class="mt-2"
-                    >
+                    <flux:heading size="xl" class="mt-2">
                         {{ $appointments->count() }}
                     </flux:heading>
                 </flux:card>
-            </div>
 
-            <!-- Calendar View of confirm bookings -->
-            <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                <div class="flex items-center justify-between gap-3">
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-900">{{ __('Confirmed appointment calendar') }}</h3>
-                        <p class="text-sm text-gray-500">{{ __('Calendar view of your confirmed bookings') }}</p>
+                <!-- Calendar -->
+                <flux:card class="rounded-3xl p-6 shadow-sm space-y-6">
+
+                    <div class="flex items-center justify-between gap-3">
+
+                        <div>
+                            <flux:heading size="lg">
+                                Confirmed appointment calendar
+                            </flux:heading>
+
+                            <flux:text class="mt-1">
+                                Calendar view of your confirmed bookings
+                            </flux:text>
+                        </div>
+
+                        <flux:badge variant="subtle">
+                            Month view
+                        </flux:badge>
+
                     </div>
-                    <div class="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-gray-600">
-                        {{ __('Month view') }}
+
+                    <div class="overflow-hidden rounded-3xl">
+                        <livewire:appointment-calendar
+                            :day-click-enabled="false"
+                            :event-click-enabled="false"
+                            :drag-and-drop-enabled="false"
+                        />
                     </div>
-                </div>
 
-                <div class="mt-6 overflow-hidden">
-                    <livewire:appointment-calendar :day-click-enabled="false" :event-click-enabled="false" :drag-and-drop-enabled="false" />
-                </div>
-            </div>
+                </flux:card>
 
-            <!-- List of pending appointments -->
-            <div class="grid gap-4">
-                <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-                    <h3 class="mb-6 text-lg font-semibold text-gray-900">
-                        <span class="inline-flex items-center justify-center rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-amber-800">
-                            {{ $appointments->where('status', 'pending')->count() }} {{ __('Pending') }}
-                        </span>
-                    </h3>
-                    <div class="space-y-4">
-                        @forelse ($appointments as $appointment)
-                            <div class="rounded-2xl border border-amber-200 bg-amber-50 p-4">
-                                <div class="mb-3">
-                                    <p class="font-semibold text-gray-900">{{ $appointment->customer->name }}</p>
-                                    <p class="text-sm text-gray-600">{{ $appointment->service->name }} · {{ $appointment->scheduled_at->format('M d, Y g:i A') }}</p>
-                                    <p class="mt-1 text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">{{ ucfirst($appointment->status) }}</p>
-                                    @if ($appointment->notes)
-                                        <p class="mt-2 text-sm text-gray-700">{{ __('Notes:') }} {{ $appointment->notes }}</p>
-                                    @endif
-                                </div>
-                                @if ($appointment->status === 'pending')
-                                    <div class="flex gap-2">
-                                        <form action="{{ route('appointments.accept', $appointment) }}" method="POST" class="flex-1">
-                                            @csrf
-                                            <button type="submit" class="w-full rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 cursor-pointer">
-                                                {{ __('Confirm') }}
-                                            </button>
-                                        </form>
-                                        <form action="{{ route('appointments.decline', $appointment) }}" method="POST" class="flex-1">
-                                            @csrf
-                                            <button type="submit" class="w-full rounded-lg bg-red-400 px-3 py-2 text-sm font-semibold text-white transition  cursor-pointer">
-                                                {{ __('Cancel') }}
-                                            </button>
-                                        </form>
-                                    </div>
-                                @endif
+                <!-- Pending Appointments -->
+                <flux:card class="rounded-3xl p-6 shadow-sm space-y-6">
+
+                    <div class="flex items-center justify-between gap-3">
+                        <flux:heading size="lg">
+                            Pending appointments
+                        </flux:heading>
+
+                        <flux:badge rounded color="amber">
+                            {{ $appointments->where('status', 'pending')->count() }} Pending
+                        </flux:badge>
+
+                    </div>
+
+                    <flux:table>
+
+        <!-- Columns -->
+        <flux:table.columns>
+            <flux:table.column>Customer</flux:table.column>
+            <flux:table.column>Service</flux:table.column>
+            <flux:table.column>Schedule</flux:table.column>
+            <flux:table.column>Status</flux:table.column>
+            <flux:table.column>Notes</flux:table.column>
+            <flux:table.column>Action</flux:table.column>
+        </flux:table.columns>
+
+        <!-- Rows -->
+        <flux:table.rows>
+
+            @forelse ($appointments as $appointment)
+
+                <flux:table.row>
+
+                    <!-- Customer -->
+                    <flux:table.cell>
+                        <flux:text class="font-semibold">
+                            {{ $appointment->customer->name }}
+                        </flux:text>
+                    </flux:table.cell>
+
+                    <!-- Service -->
+                    <flux:table.cell>
+                        {{ $appointment->service->name }}
+                    </flux:table.cell>
+
+                    <!-- Schedule -->
+                    <flux:table.cell>
+                        {{ $appointment->scheduled_at->format('M d, Y g:i A') }}
+                    </flux:table.cell>
+
+                    <!-- Status -->
+                    <flux:table.cell>
+
+                        @if ($appointment->status === 'pending')
+                            <flux:badge color="amber" size="sm">Pending</flux:badge>
+
+                        @elseif ($appointment->status === 'confirmed')
+                            <flux:badge color="emerald" size="sm">Confirmed</flux:badge>
+
+                        @elseif ($appointment->status === 'cancelled')
+                            <flux:badge color="red" size="sm">Cancelled</flux:badge>
+                        @endif
+
+                    </flux:table.cell>
+
+                    <!-- Notes -->
+                    <flux:table.cell>
+                        <flux:text class="text-sm text-zinc-400">
+                            {{ $appointment->notes ?? '—' }}
+                        </flux:text>
+                    </flux:table.cell>
+
+                    <!-- Action -->
+                    <flux:table.cell>
+
+                        @if ($appointment->status === 'pending')
+
+                            <div class="flex gap-2">
+
+                                <form action="{{ route('appointments.accept', $appointment) }}" method="POST">
+                                    @csrf
+                                    <flux:button type="submit" size="sm" variant="primary">
+                                        Confirm
+                                    </flux:button>
+                                </form>
+
+                                <form action="{{ route('appointments.decline', $appointment) }}" method="POST">
+                                    @csrf
+                                    <flux:button type="submit" size="sm" variant="filled">
+                                        Cancel
+                                    </flux:button>
+                                </form>
+
                             </div>
-                        @empty
-                            <div class="rounded-2xl border-2 border-dashed border-gray-300 p-8 text-center">
-                                <p class="text-gray-500">{{ __('No customer appointments found for your account yet.') }}</p>
-                            </div>
-                        @endforelse
-                    </div>
-                </div>
 
-            </div>
+                        @else
+                            <flux:text class="text-sm text-zinc-400">
+                                No actions available
+                            </flux:text>
+                        @endif
+
+                    </flux:table.cell>
+
+                </flux:table.row>
+
+            @empty
+
+                <flux:table.row>
+                    <flux:table.cell colspan="6">
+                        <flux:text class="text-center text-zinc-500">
+                            No customer appointments found for your account yet.
+                        </flux:text>
+                    </flux:table.cell>
+                </flux:table.row>
+
+            @endforelse
+
+        </flux:table.rows>
+    </flux:table>
+
+            </flux:card>
+
         </div>
+
     </div>
+
 </x-app-layout>
