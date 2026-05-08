@@ -59,16 +59,11 @@
             </flux:field>
 
             <!-- Remember Me -->
-            <label class="flex items-center gap-2">
-                <input
-                    id="remember_me"
-                    type="checkbox"
-                    name="remember"
-                    class="rounded border-zinc-300"
-                />
-
-                <span class="text-sm text-zinc-600"> Remember me </span>
-            </label>
+            <flux:field variant="inline">
+                <flux:checkbox wire:model="remember" />
+                <flux:label>Remember me</flux:label>
+                <flux:error name="remember" />
+            </flux:field>
 
             <!-- Buttons -->
             <div class="space-y-2">
