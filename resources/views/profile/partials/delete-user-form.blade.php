@@ -51,6 +51,7 @@
             <!-- Actions -->
             <div class="flex justify-end gap-3">
                 <flux:button
+                    class="cursor-pointer"
                     type="button"
                     variant="ghost"
                     x-on:click="$dispatch('close')"
@@ -58,7 +59,11 @@
                     {{ __('Cancel') }}
                 </flux:button>
 
-                <flux:button type="submit" variant="primary">
+                <flux:button
+                    class="cursor-pointer"
+                    type="submit"
+                    variant="primary"
+                >
                     {{ __('Delete Account') }}
                 </flux:button>
             </div>
