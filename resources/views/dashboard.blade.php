@@ -93,7 +93,7 @@
     </div>
 
     <!-- Calendar -->
-    <div class="overflow-hidden rounded-3xl border border-zinc-200 dark:border-zinc-800">
+    <div class="overflow-hidden rounded-3xl  ">
         <livewire:appointment-calendar
             :day-click-enabled="false"
             :event-click-enabled="false"
