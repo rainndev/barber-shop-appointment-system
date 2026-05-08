@@ -132,12 +132,12 @@
                         @method('PUT')
 
                         <div>
-                            <flux:label>Reschedule to</flux:label>
-                            <input
+                            <flux:label class="mb-3">Date</flux:label>
+
+                            <flux:input
                                 type="datetime-local"
                                 name="scheduled_at"
                                 value="{{ $appointment->scheduled_at->format('Y-m-d\TH:i') }}"
-                                class="mt-1 w-full rounded-xl border-zinc-300 dark:border-zinc-700"
                             />
                         </div>
 

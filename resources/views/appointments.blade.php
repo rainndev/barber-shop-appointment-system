@@ -90,15 +90,15 @@
                     </div>
 
                     <!-- Date -->
-                    <div>
-                        <flux:label>Date</flux:label>
-                        <input
-                            type="date"
-                            name="date"
-                            value="{{ $selectedDate }}"
-                            class="mt-1 w-full rounded-xl border-zinc-300 dark:border-zinc-700"
-                        />
-                    </div>
+                 <div>
+                    <flux:label class="mb-3">Date</flux:label>
+
+                    <flux:input
+                        type="date"
+                        name="date"
+                        value="{{ $selectedDate }}"
+                    />
+                </div>
 
                     <!-- Button -->
                     <div class="flex items-end">
