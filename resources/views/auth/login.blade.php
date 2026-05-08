@@ -1,26 +1,15 @@
 <x-guest-layout>
     <!-- Session Status -->
-    <x-auth-session-status
-        class="mb-4"
-        :status="session('status')"
-    />
+    <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <flux:card class="space-y-6 max-w-md mx-auto">
         <div>
-            <flux:heading size="lg">
-                Log in to your account
-            </flux:heading>
+            <flux:heading size="lg"> Log in to your account </flux:heading>
 
-            <flux:text class="mt-2">
-                Welcome back!
-            </flux:text>
+            <flux:text class="mt-2"> Welcome back! </flux:text>
         </div>
 
-        <form
-            method="POST"
-            action="{{ route('login') }}"
-            class="space-y-6"
-        >
+        <form method="POST" action="{{ route('login') }}" class="space-y-6">
             @csrf
 
             <!-- Email -->
@@ -76,20 +65,14 @@
                     type="checkbox"
                     name="remember"
                     class="rounded border-zinc-300"
-                >
+                />
 
-                <span class="text-sm text-zinc-600">
-                    Remember me
-                </span>
+                <span class="text-sm text-zinc-600"> Remember me </span>
             </label>
 
             <!-- Buttons -->
             <div class="space-y-2">
-                <flux:button
-                    type="submit"
-                    variant="primary"
-                    class="w-full"
-                >
+                <flux:button type="submit" variant="primary" class="w-full">
                     Log in
                 </flux:button>
 

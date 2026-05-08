@@ -1,20 +1,14 @@
 <x-guest-layout>
     <flux:card class="max-w-md mx-auto space-y-6">
         <div>
-            <flux:heading size="lg">
-                Create an account
-            </flux:heading>
+            <flux:heading size="lg"> Create an account </flux:heading>
 
             <flux:text class="mt-2">
                 Join and start booking appointments.
             </flux:text>
         </div>
 
-        <form
-            method="POST"
-            action="{{ route('register') }}"
-            class="space-y-6"
-        >
+        <form method="POST" action="{{ route('register') }}" class="space-y-6">
             @csrf
 
             <!-- Name -->
@@ -56,26 +50,17 @@
             <flux:field>
                 <flux:label>I am a</flux:label>
 
-                <flux:select
-                    id="role"
-                    name="role"
-                    required
-                >
-                    <option value="">
-                        Select an option
-                    </option>
+                <flux:select id="role" name="role" required>
+                    <option value="">Select an option</option>
 
                     <option
                         value="customer"
-                        @selected(old('role') === 'customer')
+                        @selected (old('role') === 'customer')
                     >
                         Customer
                     </option>
 
-                    <option
-                        value="barber"
-                        @selected(old('role') === 'barber')
-                    >
+                    <option value="barber" @selected (old('role') === 'barber')>
                         Barber (requires approval)
                     </option>
                 </flux:select>
@@ -117,11 +102,7 @@
 
             <!-- Buttons -->
             <div class="space-y-2">
-                <flux:button
-                    type="submit"
-                    variant="primary"
-                    class="w-full"
-                >
+                <flux:button type="submit" variant="primary" class="w-full">
                     Register
                 </flux:button>
 
