@@ -1,9 +1,9 @@
-@props (['status'])
+@props ([
+    'status' => null,
+])
 
 @if ($status)
-    <div
-        {{ $attributes->merge(['class' => 'font-medium text-sm text-green-600']) }}
-    >
-        {{ $status }}
+    <div {{ $attributes->merge(['class' => 'mb-4']) }}>
+        <flux:text class="text-green-300"> {{ $status }} </flux:text>
     </div>
 @endif
