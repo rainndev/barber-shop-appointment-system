@@ -346,7 +346,7 @@
                         <h4 class="font-bold mb-4">Contact</h4>
                         <ul class="space-y-2 text-zinc-400 text-sm">
                             <li>(555) 123-4567</li>
-                            <li>hello@cuts.local</li>
+                            <li>hello@cutz.local</li>
                             <li>123 Main St, City</li>
                         </ul>
                     </div>
@@ -354,7 +354,7 @@
                 <div
                     class="border-t border-zinc-800 pt-8 flex flex-col md:flex-row justify-between items-center text-zinc-500 text-sm"
                 >
-                    <p>&copy; 2026 CUTS. All rights reserved.</p>
+                    <p>&copy; 2026 CUTZ. All rights reserved.</p>
                     <div class="flex gap-6 mt-4 md:mt-0">
                         <a href="#" class="hover:text-red-500 transition"
                             >Privacy</a
