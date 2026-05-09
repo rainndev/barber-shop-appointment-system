@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="dark" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-
+    <link
+        rel="icon"
+        type="image/png"
+        href="{{ asset('images/logo-with-white.png') }}"
+    />
     <title>{{ config('app.name', 'Barber Shop Appointment System') }}</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net" />
@@ -15,7 +19,9 @@
 
     @vite (['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-slate-950 text-slate-100 font-sans">
+
+<body class="min-h-screen bg-zinc-900 text-zinc-100 font-sans">
+    <!-- Background Glow -->
     <div class="absolute inset-0 -z-10 overflow-hidden">
         <div
             class="absolute -top-24 left-[-10rem] h-80 w-80 rounded-full bg-amber-500/20 blur-3xl"
@@ -25,81 +31,109 @@
         ></div>
     </div>
 
-    <main class="mx-auto flex min-h-screen max-w-6xl items-center px-6 py-12">
+    <main class="mx-auto flex min-h-screen max-w-7xl items-center px-6 py-12">
         <section
             class="grid w-full gap-8 lg:grid-cols-[1.3fr_0.9fr] lg:items-center"
         >
-            <div class="space-y-6">
-                <span
-                    class="inline-flex rounded-full border border-white/15 bg-white/5 px-4 py-1 text-sm text-amber-200"
-                >
-                    Laravel Breeze auth for customers, barbers, and admins
-                </span>
-
+            <!-- Left Content -->
+            <div class="space-y-8">
                 <div class="space-y-4">
-                    <h1
-                        class="max-w-2xl text-5xl font-semibold tracking-tight text-white sm:text-6xl"
-                    >
+                    <flux:heading size="xl" class="max-w-3xl tracking-tight">
                         A clean booking system with separate access for every
                         role.
-                    </h1>
-                    <p class="max-w-xl text-lg leading-8 text-slate-300">Customers can book appointments, barbers can manage their schedules, and admins can oversee the shop from role-aware dashboards.</p>
+                    </flux:heading>
+
+                    <flux:text
+                        class="max-w-2xl text-base text-zinc-400 leading-8"
+                    >
+                        Customers can book appointments, barbers can manage
+                        their schedules, and admins can oversee the shop from
+                        role-aware dashboards.
+                    </flux:text>
                 </div>
 
-                <div class="flex flex-wrap gap-3 text-sm text-slate-200">
-                    <span class="rounded-full bg-white/10 px-4 py-2"
-                        >Customer</span
-                    >
-                    <span class="rounded-full bg-white/10 px-4 py-2"
-                        >Barber</span
-                    >
-                    <span class="rounded-full bg-white/10 px-4 py-2"
-                        >Admin</span
-                    >
+                <!-- Roles -->
+                <div class="flex flex-wrap gap-3">
+                    <flux:badge variant="subtle"> Customer </flux:badge>
+
+                    <flux:badge variant="subtle"> Barber </flux:badge>
+
+                    <flux:badge variant="subtle"> Admin </flux:badge>
                 </div>
 
+                <!-- Actions -->
                 <div class="flex flex-wrap gap-4 pt-2">
-                    <a href="{{ route('login') }}">
-                        <flux:button variant="primary">Sign in</flux:button>
-                    </a>
-                    <a href="{{ route('register') }}">
-                        <flux:button variant="filled"
-                            >Create customer account</flux:button
-                        >
-                    </a>
+                    <flux:button
+                        href="{{ route('login') }}"
+                        variant="primary"
+                        class="rounded-full"
+                    >
+                        Sign in
+                    </flux:button>
+
+                    <flux:button
+                        class="text-zinc-300"
+                        href="{{ route('register') }}"
+                        variant="filled"
+                        class="rounded-full"
+                    >
+                        Create customer account
+                    </flux:button>
                 </div>
             </div>
 
-            <div
-                class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur"
+            <!-- Right Card -->
+            <flux:card
+                class="rounded-3xl border border-zinc-800 bg-zinc-900/70 p-6 backdrop-blur shadow-2xl"
             >
-                <h2 class="text-xl font-semibold text-white">
-                    Seeded demo accounts
-                </h2>
-                <p class="mt-2 text-sm text-slate-300">All seeded accounts use the password <strong>password</strong>.</p>
+                <flux:heading size="lg"> Seeded demo accounts </flux:heading>
+
+                <flux:text class="mt-2 text-zinc-400">
+                    All seeded accounts use the password
+                    <span class="font-semibold text-zinc-200">password</span>.
+                </flux:text>
 
                 <div class="mt-6 space-y-4">
-                    <div
-                        class="rounded-2xl border border-white/10 bg-slate-900/60 p-4"
+                    <!-- Admin -->
+                    <flux:card
+                        class="rounded-2xl p-4 bg-zinc-950 border border-zinc-800"
                     >
-                        <p class="text-xs uppercase tracking-[0.2em] text-amber-300">Admin</p>
-                        <p class="mt-1 font-medium text-white">admin@barbershop.test</p>
-                    </div>
-                    <div
-                        class="rounded-2xl border border-white/10 bg-slate-900/60 p-4"
+                        <flux:badge color="amber" size="sm"> Admin </flux:badge>
+
+                        <flux:text class="mt-2 font-medium text-zinc-100">
+                            admin@barbershop.test
+                        </flux:text>
+                    </flux:card>
+
+                    <!-- Barber -->
+                    <flux:card
+                        class="rounded-2xl p-4 bg-zinc-950 border border-zinc-800"
                     >
-                        <p class="text-xs uppercase tracking-[0.2em] text-cyan-300">Barber</p>
-                        <p class="mt-1 font-medium text-white">barber@barbershop.test</p>
-                        <p class="text-sm text-slate-400">and barber2@barbershop.test</p>
-                    </div>
-                    <div
-                        class="rounded-2xl border border-white/10 bg-slate-900/60 p-4"
+                        <flux:badge color="cyan" size="sm"> Barber </flux:badge>
+
+                        <flux:text class="mt-2 font-medium text-zinc-100">
+                            barber@barbershop.test
+                        </flux:text>
+
+                        <flux:text class="text-sm text-zinc-500">
+                            barber2@barbershop.test
+                        </flux:text>
+                    </flux:card>
+
+                    <!-- Customer -->
+                    <flux:card
+                        class="rounded-2xl p-4 bg-zinc-950 border border-zinc-800"
                     >
-                        <p class="text-xs uppercase tracking-[0.2em] text-emerald-300">Customer</p>
-                        <p class="mt-1 font-medium text-white">Created through registration or seeding</p>
-                    </div>
+                        <flux:badge color="emerald" size="sm">
+                            Customer
+                        </flux:badge>
+
+                        <flux:text class="mt-2 font-medium text-zinc-100">
+                            Created through registration or seeding
+                        </flux:text>
+                    </flux:card>
                 </div>
-            </div>
+            </flux:card>
         </section>
     </main>
 </body>
