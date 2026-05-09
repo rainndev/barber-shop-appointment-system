@@ -19,7 +19,7 @@
             @if (session('status'))
                 <div class="mb-4">
                     <flux:badge color="emerald" class="px-4 py-2">
-                        {{ session('status') }} SSD
+                        {{ session('status') }}
                     </flux:badge>
                 </div>
             @endif
