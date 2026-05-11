@@ -42,6 +42,60 @@ class AppointmentSystemTest extends TestCase
         ]);
     }
 
+    public function test_appointments_page_preserves_selected_barber_in_booking_form_action(): void
+    {
+        $customer = User::factory()->customer()->create();
+        $barber = User::factory()->barber()->create();
+        $service = Service::query()->create([
+            'name' => 'Classic Haircut',
+            'description' => 'Quick trim',
+            'duration_minutes' => 30,
+            'price' => 15,
+            'is_active' => true,
+        ]);
+
+        $response = $this->actingAs($customer)->get(route('appointments.index', [
+            'service_id' => $service->id,
+            'barber_id' => $barber->id,
+            'date' => now()->addDay()->toDateString(),
+        ]));
+
+        $response->assertOk();
+        $response->assertSee('barber_id=' . $barber->id);
+    }
+
+    public function test_booked_slot_is_hidden_even_if_another_barber_is_free(): void
+    {
+        $customer = User::factory()->customer()->create();
+        $bookedBarber = User::factory()->barber()->create();
+        User::factory()->barber()->create();
+        $service = Service::query()->create([
+            'name' => 'Classic Haircut',
+            'description' => 'Quick trim',
+            'duration_minutes' => 30,
+            'price' => 15,
+            'is_active' => true,
+        ]);
+        $slot = now()->addDay()->setTime(12, 0);
+
+        Appointment::query()->create([
+            'user_id' => $customer->id,
+            'barber_id' => $bookedBarber->id,
+            'service_id' => $service->id,
+            'scheduled_at' => $slot,
+            'ends_at' => $slot->copy()->addMinutes(30),
+            'status' => 'confirmed',
+        ]);
+
+        $response = $this->actingAs($customer)->get(route('appointments.index', [
+            'service_id' => $service->id,
+            'date' => $slot->toDateString(),
+        ]));
+
+        $response->assertOk();
+        $response->assertDontSee('value="' . $slot->format('Y-m-d\\TH:i') . '"');
+    }
+
     public function test_barber_cannot_access_the_booking_page(): void
     {
         $barber = User::factory()->barber()->create();

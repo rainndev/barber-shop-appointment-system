@@ -127,7 +127,7 @@
                             @forelse ($availableSlots as $slot)
                                 <form
                                     method="POST"
-                                    action="{{ route('appointments.store') }}"
+                                    action="{{ route('appointments.store', ['barber_id' => optional($selectedBarber)->id]) }}"
                                 >
                                     @csrf
 

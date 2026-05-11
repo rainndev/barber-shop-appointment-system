@@ -63,6 +63,20 @@ class AppointmentController extends Controller
 
         $service = Service::query()->findOrFail($data['service_id']);
         $scheduledAt = Carbon::parse($data['scheduled_at']);
+
+        if ($this->slotAlreadyBooked($scheduledAt, $service->duration_minutes)) {
+            WaitingListEntry::query()->create([
+                'user_id' => $request->user()->id,
+                'service_id' => $service->id,
+                'preferred_date' => $scheduledAt->toDateString(),
+                'preferred_time' => $scheduledAt->format('H:i:s'),
+                'notes' => $data['notes'] ?? null,
+                'status' => 'waiting',
+            ]);
+
+            return back()->with('status', 'That slot is already booked. You were added to the waiting list.');
+        }
+
         $barber = $this->availableBarberForSlot(
             $scheduledAt,
             $service->duration_minutes,
@@ -240,7 +254,8 @@ class AppointmentController extends Controller
         $closing = Carbon::parse($date->toDateString() . ' ' . $endTime);
 
         while ($cursor->copy()->addMinutes($service->duration_minutes)->lte($closing)) {
-            if ($this->availableBarberForSlot($cursor, $service->duration_minutes, $preferredBarberId)) {
+            if (! $this->slotAlreadyBooked($cursor, $service->duration_minutes)
+                && $this->availableBarberForSlot($cursor, $service->duration_minutes, $preferredBarberId)) {
                 $slots[] = $cursor->format('Y-m-d\TH:i');
             }
 
@@ -273,6 +288,18 @@ class AppointmentController extends Controller
         }
 
         return null;
+    }
+
+    private function slotAlreadyBooked(Carbon $scheduledAt, int $durationMinutes, ?int $ignoreAppointmentId = null): bool
+    {
+        $endsAt = $scheduledAt->copy()->addMinutes($durationMinutes);
+
+        return Appointment::query()
+            ->whereIn('status', ['confirmed', 'pending'])
+            ->when($ignoreAppointmentId, fn ($query) => $query->where('id', '!=', $ignoreAppointmentId))
+            ->where('scheduled_at', '<', $endsAt)
+            ->where('ends_at', '>', $scheduledAt)
+            ->exists();
     }
 
     private function barberAvailableForSlot(int $barberId, Carbon $scheduledAt, int $durationMinutes, ?int $ignoreAppointmentId = null): bool
