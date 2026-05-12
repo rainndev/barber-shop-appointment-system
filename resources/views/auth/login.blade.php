@@ -60,8 +60,22 @@
 
             <!-- Remember Me -->
             <flux:field variant="inline">
-                <flux:checkbox wire:model="remember" />
-                <flux:label>Remember me</flux:label>
+                <div class="flex items-center gap-2">
+                    <input
+                        id="remember"
+                        type="checkbox"
+                        name="remember"
+                        value="1"
+                        class="size-[1.125rem] rounded-[.3rem] border border-zinc-300 bg-white text-[var(--color-accent)] shadow-xs accent-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/20 dark:border-white/10 dark:bg-white/10"
+                    />
+
+                    <label
+                        for="remember"
+                        class="cursor-pointer text-sm text-zinc-700 dark:text-zinc-300"
+                    >
+                        Remember me
+                    </label>
+                </div>
                 <flux:error name="remember" />
             </flux:field>
 
