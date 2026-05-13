@@ -60,6 +60,22 @@ A comprehensive Laravel-based appointment booking system designed for barber sho
     php artisan migrate --seed
     ```
 
+## Demo Accounts
+
+After seeding the database, you can use these sample accounts to sign in:
+
+- Lead barber
+    - Email: barber@barbershop.test
+    - Password: password
+- Admin
+    - Email: admin@barbershop.test
+    - Password: password
+- Junior barber
+    - Email: barber2@barbershop.test
+    - Password: password
+
+Customer accounts are not pre-seeded. You can create one yourself using the registration form.
+
 ## Running the Application
 
 Start the development server:
