@@ -30,6 +30,12 @@
                         >
                             {{ __('Barbers') }}
                         </x-nav-link>
+                        <x-nav-link
+                            :href="route('admin.users.index')"
+                            :active="request()->routeIs('admin.users.*')"
+                        >
+                            {{ __('Users') }}
+                        </x-nav-link>
                     @endif
 
                     @if (Auth::user()->isCustomer())
@@ -124,6 +130,14 @@
             >
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @if (Auth::user()->isAdmin())
+                <x-responsive-nav-link
+                    :href="route('admin.users.index')"
+                    :active="request()->routeIs('admin.users.*')"
+                >
+                    {{ __('Users') }}
+                </x-responsive-nav-link>
+            @endif
             @if (Auth::user()->isCustomer())
                 <x-responsive-nav-link
                     :href="route('appointments.index')"
