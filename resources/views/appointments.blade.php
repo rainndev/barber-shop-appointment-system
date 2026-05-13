@@ -125,54 +125,232 @@
                             class="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3"
                         >
                             @forelse ($availableSlots as $slot)
-                                <form
-                                    method="POST"
-                                    action="{{ route('appointments.store', ['barber_id' => optional($selectedBarber)->id]) }}"
-                                >
-                                    @csrf
+                                @php
+                                    $bookingFormId = 'booking-form-'.$loop->index;
+                                    $bookingModalName = 'booking-modal-'.$loop->index;
+                                @endphp
+                                <div class="space-y-0">
+                                    <form
+                                        id="{{ $bookingFormId }}"
+                                        method="POST"
+                                        action="{{ route('appointments.store', ['barber_id' => optional($selectedBarber)->id]) }}"
+                                    >
+                                        @csrf
 
-                                    <input
-                                        type="hidden"
-                                        name="service_id"
-                                        value="{{ optional($selectedService)->id }}"
-                                    />
-                                    <input
-                                        type="hidden"
-                                        name="scheduled_at"
-                                        value="{{ $slot }}"
-                                    />
-                                    <input
-                                        type="hidden"
-                                        name="barber_id"
-                                        value="{{ optional($selectedBarber)->id }}"
-                                    />
+                                        <input
+                                            type="hidden"
+                                            name="service_id"
+                                            value="{{ optional($selectedService)->id }}"
+                                        />
+                                        <input
+                                            type="hidden"
+                                            name="scheduled_at"
+                                            value="{{ $slot }}"
+                                        />
+                                        <input
+                                            type="hidden"
+                                            name="barber_id"
+                                            value="{{ optional($selectedBarber)->id }}"
+                                        />
 
-                                    <flux:card class="p-4">
-                                        <flux:text
-                                            class="text-xs font-semibold uppercase tracking-wider text-zinc-500"
-                                        >
-                                            Slot
-                                        </flux:text>
+                                        <flux:card class="p-4">
+                                            <flux:text
+                                                class="text-xs font-semibold uppercase tracking-wider text-zinc-500"
+                                            >
+                                                Slot
+                                            </flux:text>
 
-                                        <flux:heading size="sm" class="mt-2">
-                                            {{ \Carbon\Carbon::parse($slot)->format('g:i A') }}
-                                        </flux:heading>
+                                            <flux:heading
+                                                size="sm"
+                                                class="mt-2"
+                                            >
+                                                {{ \Carbon\Carbon::parse($slot)->format('g:i A') }}
+                                            </flux:heading>
 
-                                        <flux:text
-                                            class="text-sm text-zinc-500"
-                                        >
-                                            {{ \Carbon\Carbon::parse($slot)->format('M d, Y') }}
-                                        </flux:text>
+                                            <flux:text
+                                                class="text-sm text-zinc-500"
+                                            >
+                                                {{ \Carbon\Carbon::parse($slot)->format('M d, Y') }}
+                                            </flux:text>
 
-                                        <flux:button
-                                            type="submit"
-                                            variant="primary"
-                                            class="mt-4 w-full"
-                                        >
-                                            Book this slot
-                                        </flux:button>
-                                    </flux:card>
-                                </form>
+                                            <flux:modal.trigger
+                                                name="{{ $bookingModalName }}"
+                                            >
+                                                <flux:button
+                                                    type="button"
+                                                    variant="primary"
+                                                    class="mt-4 w-full cursor-pointer"
+                                                >
+                                                    Book this slot
+                                                </flux:button>
+                                            </flux:modal.trigger>
+                                        </flux:card>
+                                    </form>
+
+                                    <flux:modal
+                                        name="{{ $bookingModalName }}"
+                                        class="md:w-lg"
+                                    >
+                                        <div class="space-y-6 p-2">
+                                            <div>
+                                                <flux:heading size="xl">
+                                                    Confirm your booking
+                                                </flux:heading>
+
+                                                <flux:text
+                                                    class="mt-1 text-zinc-300"
+                                                >
+                                                    Please review the details
+                                                    before we create your
+                                                    appointment.
+                                                </flux:text>
+                                            </div>
+
+                                            <div
+                                                class="space-y-8 rounded-2xl p-4"
+                                            >
+                                                <div
+                                                    class="flex items-center gap-4"
+                                                >
+                                                    <div
+                                                        class="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10"
+                                                    >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-icon lucide-user-round">
+                                                            <circle cx="12" cy="8" r="5" />
+                                                            <path d="M20 21a8 8 0 0 0-16 0" />
+                                                        </svg>
+                                                    </div>
+                                                    <div>
+                                                        <flux:heading
+                                                            size="xs"
+                                                            class="text-xs text-zinc-500 uppercase tracking-[0.2em]"
+                                                        >
+                                                            Customer
+                                                        </flux:heading>
+
+                                                        <flux:text
+                                                            class="mt-1 text-zinc-300"
+                                                        >
+                                                            {{ auth()->user()->name }}
+                                                        </flux:text>
+                                                    </div>
+                                                </div>
+
+                                                <div
+                                                    class="flex items-center gap-4"
+                                                >
+                                                    <div
+                                                        class="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10"
+                                                    >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scissors-icon lucide-scissors">
+                                                            <circle cx="6" cy="6" r="3" />
+                                                            <path d="M8.12 8.12 12 12" />
+                                                            <path d="M20 4 8.12 15.88" />
+                                                            <circle cx="6" cy="18" r="3" />
+                                                            <path d="M14.8 14.8 20 20" />
+                                                        </svg>
+                                                    </div>
+                                                    <div>
+                                                        <flux:heading
+                                                            size="xs"
+                                                            class="text-xs text-zinc-500 uppercase tracking-[0.2em]"
+                                                        >
+                                                            Service
+                                                        </flux:heading>
+
+                                                        <flux:text
+                                                            class="mt-1 text-zinc-300"
+                                                        >
+                                                            {{ optional($selectedService)->name ?? 'Selected service' }}
+                                                        </flux:text>
+                                                    </div>
+                                                </div>
+
+                                                <div
+                                                    class="flex items-center gap-4"
+                                                >
+                                                    <div
+                                                        class="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10"
+                                                    >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-check-icon lucide-user-round-check">
+                                                            <path d="M2 21a8 8 0 0 1 13.292-6" />
+                                                            <circle cx="10" cy="8" r="5" />
+                                                            <path d="m16 19 2 2 4-4" />
+                                                        </svg>
+                                                    </div>
+                                                    <div>
+                                                        <flux:heading
+                                                            size="xs"
+                                                            class="text-xs text-zinc-500 uppercase tracking-[0.2em]"
+                                                        >
+                                                            Barber
+                                                        </flux:heading>
+
+                                                        <flux:text
+                                                            class="mt-1 text-zinc-300"
+                                                        >
+                                                            {{ optional($selectedBarber)->name ?? 'Any available barber' }}
+                                                        </flux:text>
+                                                    </div>
+                                                </div>
+
+                                                <div
+                                                    class="flex items-center gap-4"
+                                                >
+                                                    <div
+                                                        class="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10"
+                                                    >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-icon lucide-calendar">
+                                                            <path d="M8 2v4" />
+                                                            <path d="M16 2v4" />
+                                                            <rect width="18" height="18" x="3" y="4" rx="2" />
+                                                            <path d="M3 10h18" />
+                                                        </svg>
+                                                    </div>
+                                                    <div>
+                                                        <flux:heading
+                                                            size="xs"
+                                                            class="text-xs text-zinc-500 uppercase tracking-[0.2em]"
+                                                        >
+                                                            Date and time
+                                                        </flux:heading>
+
+                                                        <flux:text
+                                                            class="mt-1 text-zinc-300"
+                                                        >
+                                                            {{ \Carbon\Carbon::parse($slot)->format('M d, Y g:i A') }}
+                                                        </flux:text>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end"
+                                            >
+                                                <flux:modal.close>
+                                                    <flux:button
+                                                        type="button"
+                                                        variant="ghost"
+                                                        class="w-full sm:w-auto"
+                                                    >
+                                                        Cancel
+                                                    </flux:button>
+                                                </flux:modal.close>
+
+                                                <flux:modal.close>
+                                                    <flux:button
+                                                        type="submit"
+                                                        form="{{ $bookingFormId }}"
+                                                        variant="primary"
+                                                        class="w-full sm:w-auto"
+                                                    >
+                                                        Confirm booking
+                                                    </flux:button>
+                                                </flux:modal.close>
+                                            </div>
+                                        </div>
+                                    </flux:modal>
+                                </div>
 
                             @empty
                                 <div class="col-span-3">
