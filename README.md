@@ -104,6 +104,8 @@ php artisan test
 - Laravel 11
 - Livewire for real-time components
 - Blade templating with Flux UI components
+- Tailwind CSS for styling
+- Lucide React icons
 - MySQL database
 - Vite for asset bundling
 - PHPUnit for testing
