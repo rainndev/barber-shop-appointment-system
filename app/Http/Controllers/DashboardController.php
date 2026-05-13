@@ -48,6 +48,10 @@ class DashboardController extends Controller
         $user = $request->user();
 
         return view('barber.dashboard', [
+            'services' => Service::query()
+                ->where('barber_id', $user->id)
+                ->latest()
+                ->get(),
             'appointments' => Appointment::query()
                 ->with(['customer', 'service'])
                 ->where('barber_id', $user->id)

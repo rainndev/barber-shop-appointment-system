@@ -56,6 +56,11 @@ class User extends Authenticatable
         return $this->hasMany(Appointment::class);
     }
 
+    public function services(): HasMany
+    {
+        return $this->hasMany(Service::class, 'barber_id');
+    }
+
     public function barberAppointments(): HasMany
     {
         return $this->hasMany(Appointment::class, 'barber_id');

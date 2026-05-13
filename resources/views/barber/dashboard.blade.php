@@ -26,14 +26,168 @@
                 </flux:badge>
             @endif
 
-            <!-- Stats -->
-            <flux:card class="rounded-3xl p-6 shadow-sm">
-                <flux:text>Confirmed appointments</flux:text>
+            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                <flux:card class="rounded-3xl p-6 shadow-sm">
+                    <flux:text>Confirmed appointments</flux:text>
 
-                <flux:heading size="xl" class="mt-2">
-                    {{ $appointments->count() }}
-                </flux:heading>
-            </flux:card>
+                    <flux:heading size="xl" class="mt-2">
+                        {{ $appointments->count() }}
+                    </flux:heading>
+                </flux:card>
+
+                <flux:card class="rounded-3xl p-6 shadow-sm">
+                    <flux:text>Your services</flux:text>
+
+                    <flux:heading size="xl" class="mt-2">
+                        {{ $services->count() }}
+                    </flux:heading>
+                </flux:card>
+
+                <flux:card class="rounded-3xl p-6 shadow-sm">
+                    <flux:text>Pending appointments</flux:text>
+
+                    <flux:heading size="xl" class="mt-2">
+                        {{ $appointments->where('status', 'pending')->count() }}
+                    </flux:heading>
+                </flux:card>
+            </div>
+
+            <div class="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+                <flux:card class="rounded-3xl p-6 shadow-sm space-y-6">
+                    <div>
+                        <flux:heading size="lg">Create a service</flux:heading>
+
+                        <flux:text class="mt-1">
+                            Add a new service to your barber profile so
+                            customers can book it.
+                        </flux:text>
+                    </div>
+
+                    <form
+                        method="POST"
+                        action="{{ route('barber.services.store') }}"
+                        class="space-y-4"
+                    >
+                        @csrf
+
+                        <flux:input
+                            name="name"
+                            label="Service name"
+                            placeholder="Haircut + Line-up"
+                            required
+                        />
+
+                        <flux:textarea
+                            name="description"
+                            label="Description"
+                            placeholder="Short details customers should know"
+                            rows="4"
+                        />
+
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <flux:input
+                                type="number"
+                                name="duration_minutes"
+                                label="Duration in minutes"
+                                min="15"
+                                step="15"
+                                required
+                            />
+
+                            <flux:input
+                                type="number"
+                                name="price"
+                                label="Price"
+                                min="0"
+                                step="0.01"
+                                required
+                            />
+                        </div>
+
+                        <label
+                            class="flex items-center gap-3 text-sm text-zinc-600 dark:text-zinc-300"
+                        >
+                            <input
+                                type="checkbox"
+                                name="is_active"
+                                value="1"
+                                checked
+                                class="rounded border-zinc-300 text-zinc-900 focus:ring-zinc-900"
+                            />
+                            Make this service active right away
+                        </label>
+
+                        <flux:button
+                            type="submit"
+                            variant="primary"
+                            class="w-full"
+                        >
+                            Create service
+                        </flux:button>
+                    </form>
+                </flux:card>
+
+                <flux:card class="rounded-3xl p-6 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <flux:heading size="lg">Your services</flux:heading>
+
+                            <flux:text class="mt-1">
+                                Services you created for your barber profile.
+                            </flux:text>
+                        </div>
+
+                        <flux:badge variant="subtle"
+                            >{{ $services->count() }} total</flux:badge
+                        >
+                    </div>
+
+                    <div class="space-y-3">
+                        @forelse ($services as $service)
+                            <flux:card class="rounded-2xl p-4">
+                                <div
+                                    class="flex items-start justify-between gap-4"
+                                >
+                                    <div>
+                                        <flux:text class="font-semibold">
+                                            {{ $service->name }}
+                                        </flux:text>
+
+                                        <flux:text
+                                            class="mt-1 text-sm text-zinc-500"
+                                        >
+                                            {{ $service->duration_minutes }} min
+                                            · ₱{{ number_format((float) $service->price, 2) }}
+                                        </flux:text>
+                                    </div>
+
+                                    @if ($service->is_active)
+                                        <flux:badge color="emerald" size="sm"
+                                            >Active</flux:badge
+                                        >
+                                    @else
+                                        <flux:badge variant="subtle" size="sm"
+                                            >Inactive</flux:badge
+                                        >
+                                    @endif
+                                </div>
+
+                                @if ($service->description)
+                                    <flux:text
+                                        class="mt-3 text-sm text-zinc-500"
+                                    >
+                                        {{ $service->description }}
+                                    </flux:text>
+                                @endif
+                            </flux:card>
+                        @empty
+                            <flux:text class="text-zinc-500">
+                                You have not created any services yet.
+                            </flux:text>
+                        @endforelse
+                    </div>
+                </flux:card>
+            </div>
 
             <!-- Calendar -->
             <flux:card class="rounded-3xl p-6 shadow-sm space-y-6">

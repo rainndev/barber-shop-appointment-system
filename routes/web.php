@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AvailabilityBlockController;
+use App\Http\Controllers\BarberServiceController;
 use App\Http\Controllers\BarbersApprovalController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\UserManagementController;
@@ -22,6 +23,7 @@ Route::middleware(['auth', 'verified', 'role:customer'])->prefix('customer')->na
 
 Route::middleware(['auth', 'verified', 'role:barber'])->prefix('barber')->name('barber.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'barber'])->name('dashboard');
+    Route::post('/services', [BarberServiceController::class, 'store'])->name('services.store');
 });
 
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
