@@ -24,6 +24,12 @@ A comprehensive Laravel-based appointment booking system designed for barber sho
     pnpm install
     ```
 
+    After installing dependencies, build the frontend assets so Vite has the generated files it needs:
+
+    ```bash
+    pnpm run build
+    ```
+
 4. Copy the environment configuration file:
 
     ```bash
@@ -61,6 +67,8 @@ Start the development server:
 ```bash
 php artisan serve
 ```
+
+If you change any frontend assets or if Vite complains about missing build output, run `pnpm run build` again before refreshing the app.
 
 In a separate terminal, compile and watch frontend assets:
 
