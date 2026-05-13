@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+/* Force dark mode regardless of system preference */
+:root,
+html {
+    color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+    :root {
+        color-scheme: dark;
+    }
+}
+
 @theme {
     --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
 }
