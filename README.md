@@ -143,19 +143,15 @@ This project is open source and licensed under the MIT License.
 ### Guest
 
 <div align="center">
-  <table>
-    <tr>
-      <td align="center"><img width="400" alt="register" src="https://github.com/user-attachments/assets/b4bd526a-5cbf-4e6a-ac93-db8e6fc644e9" /></td>
-      <td align="center"><img width="400" alt="log-in" src="https://github.com/user-attachments/assets/6645f6a4-3119-4dbb-9e24-47799387b1b3" /></td>
-    </tr>
-    <tr>
-      <td align="center"><img width="400" alt="landing-hero" src="https://github.com/user-attachments/assets/d45d95d2-3e45-4300-b9fd-d511d66d4e9a" /></td>
-      <td align="center"><img width="400" alt="landing-services" src="https://github.com/user-attachments/assets/a1afcd60-51e0-4d39-a7f7-8601c0577ccf" /></td>
-    </tr>
-    <tr>
-      <td align="center" colspan="2"><img width="400" alt="landing-footer" src="https://github.com/user-attachments/assets/110e1f75-8b10-44d5-bbb5-1c7198086466" /></td>
-    </tr>
-  </table>
+  <img width="600" alt="register" src="https://github.com/user-attachments/assets/b4bd526a-5cbf-4e6a-ac93-db8e6fc644e9" />
+  <br/><br/>
+  <img width="600" alt="log-in" src="https://github.com/user-attachments/assets/6645f6a4-3119-4dbb-9e24-47799387b1b3" />
+  <br/><br/>
+  <img width="600" alt="landing-hero" src="https://github.com/user-attachments/assets/d45d95d2-3e45-4300-b9fd-d511d66d4e9a" />
+  <br/><br/>
+  <img width="600" alt="landing-services" src="https://github.com/user-attachments/assets/a1afcd60-51e0-4d39-a7f7-8601c0577ccf" />
+  <br/><br/>
+  <img width="600" alt="landing-footer" src="https://github.com/user-attachments/assets/110e1f75-8b10-44d5-bbb5-1c7198086466" />
 </div>
 
 ---
@@ -163,20 +159,17 @@ This project is open source and licensed under the MIT License.
 ### Customer
 
 <div align="center">
-  <table>
-    <tr>
-      <td align="center"><img width="400" alt="dashboard-calendar" src="https://github.com/user-attachments/assets/5938b177-3bac-4532-9a76-289bca9fc057" /></td>
-      <td align="center"><img width="400" alt="dashboard-w-confirmed-visits-and-waitinglist" src="https://github.com/user-attachments/assets/b5819ece-1211-4fec-bd6a-00f5fb5cc24c" /></td>
-    </tr>
-    <tr>
-      <td align="center"><img width="400" alt="appointments" src="https://github.com/user-attachments/assets/417db071-8d5d-4580-a4f9-a059b52db320" /></td>
-      <td align="center"><img width="400" alt="appointment-details" src="https://github.com/user-attachments/assets/8fa83291-0821-4e50-be92-dbe544a8267f" /></td>
-    </tr>
-    <tr>
-      <td align="center"><img width="400" alt="appointments-modal" src="https://github.com/user-attachments/assets/42b6f2d7-0bc7-4fc8-8638-2762d23b00fa" /></td>
-      <td align="center"><img width="400" alt="profile" src="https://github.com/user-attachments/assets/9fcd9114-50fe-40fe-b7df-9e50f640f59d" /></td>
-    </tr>
-  </table>
+  <img width="600" alt="dashboard-calendar" src="https://github.com/user-attachments/assets/5938b177-3bac-4532-9a76-289bca9fc057" />
+  <br/><br/>
+  <img width="600" alt="dashboard-w-confirmed-visits-and-waitinglist" src="https://github.com/user-attachments/assets/b5819ece-1211-4fec-bd6a-00f5fb5cc24c" />
+  <br/><br/>
+  <img width="600" alt="appointments" src="https://github.com/user-attachments/assets/417db071-8d5d-4580-a4f9-a059b52db320" />
+  <br/><br/>
+  <img width="600" alt="appointment-details" src="https://github.com/user-attachments/assets/8fa83291-0821-4e50-be92-dbe544a8267f" />
+  <br/><br/>
+  <img width="600" alt="appointments-modal" src="https://github.com/user-attachments/assets/42b6f2d7-0bc7-4fc8-8638-2762d23b00fa" />
+  <br/><br/>
+  <img width="600" alt="profile" src="https://github.com/user-attachments/assets/9fcd9114-50fe-40fe-b7df-9e50f640f59d" />
 </div>
 
 ---
@@ -184,22 +177,17 @@ This project is open source and licensed under the MIT License.
 ### Admin
 
 <div align="center">
-  <table>
-    <tr>
-      <td align="center"><img width="400" alt="dashboard" src="https://github.com/user-attachments/assets/1b4169be-c3dc-4287-b76e-dc6b2c1d7e90" /></td>
-      <td align="center"><img width="400" alt="barber-approval" src="https://github.com/user-attachments/assets/30b25ab2-9b0c-4d3e-8e07-536d433a43ad" /></td>
-    </tr>
-    <tr>
-      <td align="center"><img width="400" alt="active-user-list" src="https://github.com/user-attachments/assets/5e5bd8f0-f22c-417a-8e94-85389f687c36" /></td>
-      <td align="center"><img width="400" alt="pending-approved-user-list" src="https://github.com/user-attachments/assets/deeb6a07-b4e8-431e-ad76-4b7e4ba7f9d9" /></td>
-    </tr>
-    <tr>
-      <td align="center" colspan="2"><img width="300" alt="delete-modal" src="https://github.com/user-attachments/assets/766508ad-aa2a-4da8-a6ce-efbaa2070804" /></td>
-    </tr>
-    <tr>
-      <td align="center" colspan="2"><img width="400" alt="profile" src="https://github.com/user-attachments/assets/1d588777-0c5f-4557-bc10-4a3ef197ff68" /></td>
-    </tr>
-  </table>
+  <img width="600" alt="dashboard" src="https://github.com/user-attachments/assets/1b4169be-c3dc-4287-b76e-dc6b2c1d7e90" />
+  <br/><br/>
+  <img width="600" alt="barber-approval" src="https://github.com/user-attachments/assets/30b25ab2-9b0c-4d3e-8e07-536d433a43ad" />
+  <br/><br/>
+  <img width="600" alt="active-user-list" src="https://github.com/user-attachments/assets/5e5bd8f0-f22c-417a-8e94-85389f687c36" />
+  <br/><br/>
+  <img width="600" alt="pending-approved-user-list" src="https://github.com/user-attachments/assets/deeb6a07-b4e8-431e-ad76-4b7e4ba7f9d9" />
+  <br/><br/>
+  <img width="300" alt="delete-modal" src="https://github.com/user-attachments/assets/766508ad-aa2a-4da8-a6ce-efbaa2070804" />
+  <br/><br/>
+  <img width="600" alt="profile" src="https://github.com/user-attachments/assets/1d588777-0c5f-4557-bc10-4a3ef197ff68" />
 </div>
 
 ---
@@ -207,16 +195,11 @@ This project is open source and licensed under the MIT License.
 ### Barber
 
 <div align="center">
-  <table>
-    <tr>
-      <td align="center"><img width="400" alt="dashboard-with-service-creation" src="https://github.com/user-attachments/assets/32ca9703-759a-469c-9fec-ab9ecb4ee4e1" /></td>
-      <td align="center"><img width="400" alt="dashboard-with-pending-appointments" src="https://github.com/user-attachments/assets/e9568f34-a77b-47fc-a04e-e533d6bdc6f1" /></td>
-    </tr>
-    <tr>
-      <td align="center" colspan="2"><img width="400" alt="profile" src="https://github.com/user-attachments/assets/0ac2a9b3-8893-4c1c-8525-efe932c3059c" /></td>
-    </tr>
-  </table>
+  <img width="600" alt="dashboard-with-service-creation" src="https://github.com/user-attachments/assets/32ca9703-759a-469c-9fec-ab9ecb4ee4e1" />
+  <br/><br/>
+  <img width="600" alt="dashboard-with-pending-appointments" src="https://github.com/user-attachments/assets/e9568f34-a77b-47fc-a04e-e533d6bdc6f1" />
+  <br/><br/>
+  <img width="600" alt="profile" src="https://github.com/user-attachments/assets/0ac2a9b3-8893-4c1c-8525-efe932c3059c" />
 </div>
-
 
 
